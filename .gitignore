@@ -1,0 +1,19 @@
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# .NET
+bin/
+obj/
+*.user
+TestResults/
+
+# Node / Angular
+node_modules/
+web/dist/
+web/.angular/
+
+# Local secrets
+.env
