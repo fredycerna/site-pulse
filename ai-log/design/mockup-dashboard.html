@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup — weekly baseline dashboard (merged)</title>
+<style>
+  :root { --ink:#1c2330; --muted:#667085; --line:#e4e7ec; --band:#cfdfd3; --dot:#3f4a57; --above:#1d4ed8; --below:#b45309; --bg:#f4f4f2; --card:#fff; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif; }
+  main { max-width:960px; margin:0 auto; padding:20px 16px 48px; }
+  .note { font-size:12px; color:var(--muted); }
+  .top { display:flex; flex-wrap:wrap; gap:12px; align-items:end; margin-bottom:18px; }
+  label { display:block; font-size:12px; color:var(--muted); margin-bottom:4px; }
+  select { font:inherit; padding:6px 8px; border:1px solid var(--line); border-radius:6px; background:#fff; }
+  .eyebrow { font-size:12px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin:0 0 4px; }
+  h1 { font-size:24px; line-height:1.25; margin:0 0 6px; max-width:760px; }
+  .sub { color:var(--muted); margin:0 0 16px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:16px; }
+  .mcard { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 14px; text-align:left; font:inherit; color:inherit; cursor:pointer; }
+  .mcard[aria-pressed=true] { border:2px solid var(--ink); padding:11px 13px; }
+  .mhead { display:flex; justify-content:space-between; align-items:center; font-weight:600; font-size:14px; }
+  .big { font-size:28px; font-weight:700; margin-right:6px; }
+  .pill { font-size:11px; font-weight:600; padding:2px 8px; border-radius:999px; background:#eceeea; color:#4b5563; white-space:nowrap; }
+  .pill.above { background:#dbe6fd; color:var(--above); }
+  .pill.below { background:#fdebd3; color:var(--below); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin-bottom:14px; }
+  .row { display:grid; grid-template-columns:80px 36px 1fr 96px; gap:12px; align-items:center; padding:8px 6px; border:0; border-top:1px solid var(--line); cursor:pointer; background:none; width:100%; text-align:left; font:inherit; color:inherit; }
+  .row:first-of-type { border-top:0; }
+  .row:hover, .row[aria-expanded=true] { background:#f2f5f9; }
+  .num { font-weight:700; text-align:right; }
+  .st { text-align:right; }
+  svg { display:block; width:100%; }
+  .detail { padding:10px 6px 14px; border-top:1px dashed var(--line); }
+  .why { margin:0 0 8px; }
+  .two { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:12px; }
+  .two ul { margin:6px 0 0; padding-left:18px; font-size:13px; color:#3f4a57; }
+</style>
+</head>
+<body>
+<main>
+  <p class="note">MOCKUP (merged design) — real seed numbers for one account, static page. Weeks bucketed approximately; the app computes them in the account's timezone.</p>
+  <div class="top">
+    <div><label>Demo: viewing as</label><select><option>Redline Tire &amp; Service (7 locations)</option></select></div>
+    <div><label>Week</label><select><option>Jul 20 – Jul 26, 2026 · last complete</option><option>Jul 13 – Jul 19, 2026</option><option>Jul 6 – Jul 12, 2026</option></select></div>
+    <div class="note" style="margin-left:auto">Demo clock pinned to Mon Jul 27, 2026 (seed snapshot)</div>
+  </div>
+
+  <p class="eyebrow" id="eyebrow"></p>
+  <h1 id="verdict"></h1>
+  <p class="sub" id="verdictSub"></p>
+
+  <div class="cards" id="cards"></div>
+
+  <section class="card">
+    <strong id="locTitle"></strong> <span class="note">· locations outside their own range come first · click a location to see why</span>
+    <div id="rows" style="margin-top:8px"></div>
+  </section>
+
+  <div class="two">
+    <section class="card"><strong>How we decide what is "normal"</strong>
+      <ul>
+        <li>Weeks run Monday to Sunday in the account's timezone.</li>
+        <li>Each location is compared with its own 8 previous full weeks. A week with no activity counts as 0.</li>
+        <li>Normal range = the middle value of those weeks, plus or minus the usual week-to-week swing.</li>
+        <li>With low volumes we compare against the range, not a percentage.</li>
+      </ul>
+    </section>
+    <section class="card"><strong>Notes about your data</strong>
+      <ul>
+        <li>1 duplicated event was excluded for this account.</li>
+        <li>The week of Jul 27 is still in progress and is not compared yet.</li>
+        <li>(When a baseline week was exceptional, it is listed here: "it is in your history but does not move the normal range".)</li>
+      </ul>
+    </section>
+  </div>
+</main>
+<script>
+const WEEKS = ["2026-05-25","2026-06-01","2026-06-08","2026-06-15","2026-06-22","2026-06-29","2026-07-06","2026-07-13","2026-07-20"];
+const METRICS = [
+  {key:"all", label:"All activity", current:54, median:56, low:39, high:73, status:"typical", history:[52,56,56,39,43,68,56,64,54]},
+  {key:"call_received", label:"Calls", current:31, median:32.5, low:22, high:43, status:"typical", history:[31,32,33,26,30,45,37,38,31]},
+  {key:"lead_created", label:"Leads", current:17, median:14.5, low:7, high:22, status:"typical", history:[16,13,19,8,7,14,15,16,17]},
+  {key:"appointment_set", label:"Appointments", current:6, median:5.5, low:1, high:10, status:"typical", history:[5,11,4,5,6,9,4,10,6]}
+];
+const LOCS = [
+  {location:"Site F", current:11, median:5.5, low:1, high:10, status:"above", history:[5,6,5,5,9,10,10,5,11]},
+  {location:"Site C", current:2, median:8.5, low:0, high:18, status:"typical", history:[10,12,8,4,4,12,2,9,2]},
+  {location:"Site E", current:11, median:8, low:3, high:13, status:"typical", history:[6,8,7,6,10,12,12,8,11]},
+  {location:"Site B", current:7, median:5, low:1, high:9, status:"typical", history:[5,6,10,3,4,11,5,3,7]},
+  {location:"Site D", current:8, median:9.5, low:4, high:15, status:"typical", history:[8,7,11,7,6,11,11,12,8]},
+  {location:"Site A", current:7, median:8, low:3, high:13, status:"typical", history:[8,8,8,8,3,6,8,14,7]},
+  {location:"Site G", current:8, median:7.5, low:3, high:12, status:"typical", history:[10,9,7,6,7,6,8,13,8]}
+];
+const C = {typical:"#3f4a57", above:"#1d4ed8", below:"#b45309"};
+const fmt = iso => new Date(iso + "T12:00:00Z").toLocaleDateString("en-US", {month:"short", day:"numeric", timeZone:"UTC"});
+const addDays = (iso, n) => { const d = new Date(iso + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const weekLabel = fmt(WEEKS[8]) + " – " + fmt(addDays(WEEKS[8], 6));
+const baseLabel = fmt(WEEKS[0]) + " – " + fmt(addDays(WEEKS[7], 6));
+const pill = s => `<span class="pill ${s === "typical" ? "" : s}">${s === "above" ? "Above normal" : s === "below" ? "Below normal" : "Normal"}</span>`;
+const word = s => s === "typical" ? "within" : s;
+
+function rangeBar(r, max, h = 26) {
+  const W = 500, x = v => 8 + (v / max) * (W - 16), m = h / 2;
+  return `<svg viewBox="0 0 ${W} ${h}" role="img" aria-label="${r.current}, normal ${r.low} to ${r.high}">
+    <rect x="8" y="${m - 4}" width="${W - 16}" height="8" rx="4" fill="#eceeea"/>
+    <rect x="${x(r.low)}" y="${m - 6}" width="${Math.max(4, x(r.high) - x(r.low))}" height="12" rx="4" fill="#cfdfd3"/>
+    <line x1="${x(r.median)}" x2="${x(r.median)}" y1="${m - 9}" y2="${m + 9}" stroke="#1c2330" stroke-width="2"/>
+    <circle cx="${x(r.current)}" cy="${m}" r="6" fill="${C[r.status]}" stroke="#fff" stroke-width="2"/>
+  </svg>`;
+}
+function historyChart(r) {
+  const W = 500, H = 150, top = 14, base = 122, max = Math.max(r.high, ...r.history) * 1.1, y = v => base - (v / max) * (base - top), bw = 34, gap = (W - 40 - bw * 9) / 8;
+  let bars = "";
+  r.history.forEach((v, i) => {
+    const bx = 30 + i * (bw + gap), last = i === 8;
+    bars += `<rect x="${bx}" y="${y(v)}" width="${bw}" height="${base - y(v)}" rx="2" fill="${last ? C[r.status] : "#a9b0ba"}"/>
+      <text x="${bx + bw / 2}" y="${y(v) - 3}" font-size="11" text-anchor="middle" fill="#1c2330">${v}</text>
+      <text x="${bx + bw / 2}" y="${base + 14}" font-size="10" text-anchor="middle" fill="#667085">${fmt(WEEKS[i])}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Last 9 weeks">
+    <rect x="24" y="${y(r.high)}" width="${W - 34}" height="${y(r.low) - y(r.high)}" fill="#cfdfd3" opacity=".6"/>
+    <line x1="24" x2="${W - 10}" y1="${y(r.median)}" y2="${y(r.median)}" stroke="#1c2330" stroke-dasharray="4 3"/>
+    <line x1="24" x2="${W - 10}" y1="${base}" y2="${base}" stroke="#e4e7ec"/>${bars}
+    <text x="${30 + 8 * (bw + gap) + bw / 2}" y="${base + 26}" font-size="10" text-anchor="middle" fill="#1c2330" font-weight="600">this week</text>
+  </svg>`;
+}
+const sel = METRICS[0], out = LOCS.filter(l => l.status !== "typical");
+document.getElementById("eyebrow").textContent = `Week of ${weekLabel} · local time America/Los_Angeles`;
+document.getElementById("verdict").textContent = `${sel.label} is ${word(sel.status)} your normal range (${sel.current}, normal ${sel.low}–${sel.high}). ` + (out.length ? `${out.length} location${out.length > 1 ? "s are" : " is"} outside its own range.` : "Every location is within its own range.");
+document.getElementById("verdictSub").textContent = `Compared with your own 8 previous full weeks (${baseLabel}).`;
+document.getElementById("cards").innerHTML = METRICS.map((m, i) => {
+  const diff = m.current - m.median;
+  return `<button class="mcard" aria-pressed="${i === 0}"><div class="mhead"><span>${m.label}</span>${pill(m.status)}</div>
+    <div><span class="big">${m.current}</span><span class="note">${diff >= 0 ? "+" : "−"}${Math.abs(diff)} vs median</span></div>
+    ${rangeBar(m, Math.max(m.high, m.current) * 1.25, 22)}<div class="note">Normal ${m.low}–${m.high} · median ${m.median}</div></button>`;
+}).join("");
+document.getElementById("locTitle").textContent = `Locations · ${sel.label}`;
+const max = Math.max(...LOCS.map(l => Math.max(l.high, l.current))) * 1.1, rows = document.getElementById("rows");
+LOCS.forEach((l, i) => {
+  const b = document.createElement("button");
+  b.className = "row"; b.setAttribute("aria-expanded", "false");
+  b.innerHTML = `<span>${l.location}</span><span class="num">${l.current}</span>${rangeBar(l, max)}<span class="st">${pill(l.status)}</span>`;
+  const d = document.createElement("div");
+  d.className = "detail"; d.hidden = true;
+  d.innerHTML = `<p class="why"><strong>${l.current} events this week.</strong> Normal for ${l.location} is ${l.low}–${l.high} (median ${l.median}), based on its own 8 previous weeks, ${baseLabel}. That is <strong>${word(l.status)}</strong> its normal range.</p>${historyChart(l)}`;
+  b.onclick = () => { d.hidden = !d.hidden; b.setAttribute("aria-expanded", String(!d.hidden)); };
+  rows.append(b, d);
+  if (i === 0 && l.status !== "typical") b.click();
+});
+</script>
+</body>
+</html>
