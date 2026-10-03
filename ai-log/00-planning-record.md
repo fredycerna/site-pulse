@@ -1,6 +1,6 @@
 # 00 — Planning session record
 
-**What this is**: a written record of the planning session (Saturday 2026-10-03, morning), reconstructed from the day plan that session produced. It is not the raw transcript. The raw `/export` of the planning session is added separately on Sunday. Order follows what actually happened. Unpolished on purpose.
+**What this is**: a written record of the planning session (Saturday 2026-10-03, about 1 h, 12:20 to 13:20), reconstructed from the day plan that session produced. It is not the raw transcript. The raw `/export` of the planning session is added separately on Sunday. Order follows what actually happened. Unpolished on purpose.
 
 **Who**: me (product and scope decisions) and one planning session in Claude Code (Claude Fable 5.1). The planning session did not write feature code.
 
@@ -16,7 +16,7 @@
 The agent loaded `schema.sql` and `seed.sql` into a scratch database and profiled it before proposing any design. What came out (details in `PLAN.md` §2):
 
 - 12,626 events, 20 accounts, 2026-02-01 to 2026-07-27 UTC: 25 complete weeks plus a partial Monday. The real clock (October) is useless, so "now" has to be pinned to the snapshot.
-- Account 6 has an 882-event day on 2026-06-03 (normal is ~80).
+- A spike on 2026-06-03: 882 events across all accounts that day. Account 6 alone logged 805, against about 13 on one of its normal weekdays; its week comes to 881 against ~70. (`PLAN.md` §2 says "882 for account 6", which is wrong; see the errata in the README.)
 - Per-location volumes are tiny: 2 to 15 events per week.
 - 12 exact duplicate pairs with consecutive ids.
 - 398 NULL `outcome`, 313 calls with NULL `duration_seconds`, some missed calls with a duration.
@@ -34,6 +34,7 @@ These findings drove the design more than anything else: a median instead of an 
   - median ± 2σ (proposed): **6 %**
   - interquartile range p25–p75: 55 %
   - average of the last 4 weeks ± 30 %: 51 %
+- Caveat: this back-test, and the list of locations it flags for the last week, came from an exploratory run that bucketed weeks in UTC. The app buckets weeks in each account's local time, so the exact counts may differ slightly. The README puts the app's real numbers next to them.
 - Accepted. A screen that flags half the locations every Monday is noise.
 - Metric for the slice: weekly volume with a type filter. Quality (missed-call rate, no-shows) is deferred and named.
 - Ordering: out-of-range locations first, by size of deviation.
@@ -63,7 +64,7 @@ I drew my own version of the screen (`design/sketch-1-dashboard.png`, `design/sk
 - **Week boundaries in C#**: T-SQL does not understand IANA zones; computing 10 UTC boundaries in C# keeps the predicate a plain indexed range. The integrity check goes the other way: an independent T-SQL computation with `AT TIME ZONE`.
 - **Cache**: no. The query touches ~2,600 rows per account through an index. Measure, log the time, and describe in the README what to do at scale.
 - **Duplicates**: kept in the table, removed in a named view (`activity_events_deduped`).
-- **Integration tests**: I changed my mind on these more than once during the session. Final decision: include them, with conditions: **30-minute cap** to get them green, no Testcontainers, no `WebApplicationFactory`, no separate database. The API is read-only, so the tests read the same seeded database. If they are not green in 30 minutes, the manual verification goes in the README.
+- **Integration tests**: the planning session proposed them, pinned to fixed numbers. I said I would leave them out: in my experience they cost a lot of back-and-forth. The session pushed back: the aggregation lives in SQL, and a unit test never touches it. I accepted, with conditions: **30-minute cap** to get them green, no Testcontainers, no `WebApplicationFactory`, no separate database. The API is read-only, so the tests read the same seeded database. If they are not green in 30 minutes, the manual verification goes in the README.
 - **State that survives a reload**: URL query params, no state library.
 - **Repo name**: `site-pulse`.
 - **Questions to the recruiter**: none sent. It is the weekend and the prompt accepts documenting assumptions, so they went into `PLAN.md` §3.
@@ -72,6 +73,8 @@ I drew my own version of the screen (`design/sketch-1-dashboard.png`, `design/sk
 
 The planning session wrote one closed task list per execution terminal (docs, backend, frontend), with file ownership, decisions already made, a cut line and the commit messages. See `AGENT_WORKFLOW.md`. Product decisions stayed with me; the plan went to `PLAN.md` as the first commit.
 
-## 7. One process note
+## 7. Process notes
 
 The docs terminal's first session (13:20) was stopped by a content filter in the tool. It had been instructed to read and copy its own session files into this log. I dropped that instruction (the readable record comes from `/export`, which I run myself) and restarted the terminal with an adjusted prompt.
+
+After `PLAN.md` was committed, a cross-review by the planning session found that the spike figure in §2 was wrong (882 is the all-accounts total for that day, not account 6's). `PLAN.md` stays frozen; the correction, the UTC caveat on the back-test, and the real planning time go in the README as "Errata to PLAN.md".
