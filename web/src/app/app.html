@@ -1,0 +1,20 @@
+<main>
+  <h1>Site Pulse</h1>
+
+  @switch (status()) {
+    @case ('loading') {
+      <p>Loading accounts…</p>
+    }
+    @case ('error') {
+      <p role="alert">Could not load accounts. Is the API running?</p>
+    }
+    @case ('ready') {
+      <label for="account">Demo: viewing as</label>
+      <select id="account">
+        @for (account of accounts(); track account.id) {
+          <option [value]="account.id">{{ account.name }}</option>
+        }
+      </select>
+    }
+  }
+</main>
