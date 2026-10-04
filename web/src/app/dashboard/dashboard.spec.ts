@@ -5,6 +5,7 @@ import { provideRouter } from '@angular/router';
 import { ActivityBaseline } from '../api/baseline-api';
 import { Dashboard } from './dashboard';
 import sample from '../api/testing/baseline-account-6.json';
+import shortHistory from '../api/testing/baseline-account-6-short-history.json';
 
 const ACCOUNTS = [
   { id: 6, name: 'Metro Collision Centers', timezone: 'America/New_York' },
@@ -62,6 +63,36 @@ describe('Dashboard', () => {
     expect(el.querySelector('.eyebrow')?.textContent).toContain('Jul 20 – Jul 26, 2026');
     expect(el.querySelector('.eyebrow')?.textContent).toContain('America/New_York');
     expect(el.querySelector('.clock')?.textContent?.trim()).toBe('Demo clock pinned to Mon Jul 27, 2026 (seed snapshot)');
+  });
+
+  describe('with fewer than 8 weeks of history (account 6, week of Mar 2)', () => {
+    async function renderShort() {
+      return render(structuredClone(shortHistory) as ActivityBaseline);
+    }
+
+    it('says how many weeks the range used and from when, as sent by the API', async () => {
+      const el = await renderShort();
+
+      expect(el.querySelector('.sub')?.textContent?.trim()).toBe('Compared with your own 4 previous full weeks (Feb 2 – Mar 1).');
+    });
+
+    it('explains the open location against the weeks it really used', async () => {
+      const el = await renderShort();
+
+      const why = el.querySelector('.detail .why')?.textContent?.replace(/\s+/g, ' ').trim();
+      expect(why).toContain('Normal for Site C is 0–7 (median 3.5), based on its own 4 previous weeks, Feb 2 – Mar 1.');
+    });
+
+    it('draws the weeks outside the baseline dimmed and labeled, not as zeros', async () => {
+      const el = await renderShort();
+
+      const chart = el.querySelector('.detail app-week-history-chart')!;
+      expect(chart.querySelectorAll('rect.bar.outside')).toHaveLength(4);
+      expect(Array.from(chart.querySelectorAll('text.outside-label')).map(t => t.textContent?.trim())).toEqual(['not used', 'not used', 'not used', 'not used']);
+      const values = Array.from(chart.querySelectorAll('text.value')).map(t => t.textContent?.trim());
+      expect(values).toEqual(['1', '4', '3', '12', '1', '8']); // Jan 5–19 had no events and show no "0"; Jan 26 keeps its 1
+      expect(chart.querySelector('svg')?.getAttribute('aria-label')).toContain('Jan 5 not used');
+    });
   });
 
   it('agrees the verb with a plural metric name', async () => {

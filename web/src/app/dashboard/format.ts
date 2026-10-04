@@ -1,4 +1,4 @@
-import { BaselineStatus, EventType } from '../api/baseline-api';
+import { BaselineStatus, EventType, HistoryWeek } from '../api/baseline-api';
 
 // Presentation only: labels and dates. Status, ranges and order come from the API.
 
@@ -82,6 +82,12 @@ export function signedDiff(current: number, median: number | null): string {
   if (median === null) return '';
   const diff = current - median;
   return `${diff >= 0 ? '+' : '−'}${Math.abs(diff)}`;
+}
+
+/** "Feb 2 – Mar 1": the first week the API marked as baseline, up to the exclusive end of the baseline. */
+export function baselineLabel(history: HistoryWeek[], endExclusive: string): string {
+  const first = history.find(h => h.inBaseline);
+  return first ? rangeLabel(first.weekStart, endExclusive) : '';
 }
 
 /** "Mon Jul 27, 2026" for an instant, read in UTC. */

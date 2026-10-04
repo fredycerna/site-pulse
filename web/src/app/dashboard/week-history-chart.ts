@@ -1,8 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { BaselineStatus, WeekCount } from '../api/baseline-api';
+import { BaselineStatus, HistoryWeek } from '../api/baseline-api';
 import { formatDay } from './format';
 
-/** The 8 baseline weeks plus the selected one, over the shaded normal range and the median. */
+/**
+ * The 8 baseline weeks plus the selected one, over the shaded normal range and the median.
+ * Weeks the API did not use as baseline (`inBaseline` false) are dimmed and labeled "not used",
+ * and show a count only when they had events, so a week before the data does not read as a zero.
+ */
 @Component({
   selector: 'app-week-history-chart',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,9 +17,14 @@ import { formatDay } from './format';
       <line x1="24" [attr.x2]="W - 10" [attr.y1]="BASE" [attr.y2]="BASE" class="axis" />
       @for (bar of bars(); track bar.weekStart) {
         <rect [attr.x]="bar.x" [attr.y]="y(bar.count)" [attr.width]="BW" [attr.height]="BASE - y(bar.count)" rx="2"
-              [attr.class]="bar.last ? 'bar current ' + status() : 'bar'" />
-        <text [attr.x]="bar.x + BW / 2" [attr.y]="y(bar.count) - 3" class="value">{{ bar.count }}</text>
+              [attr.class]="bar.last ? 'bar current ' + status() : bar.outside ? 'bar outside' : 'bar'" />
+        @if (!bar.outside || bar.count > 0) {
+          <text [attr.x]="bar.x + BW / 2" [attr.y]="y(bar.count) - 3" class="value">{{ bar.count }}</text>
+        }
         <text [attr.x]="bar.x + BW / 2" [attr.y]="BASE + 14" class="week">{{ bar.label }}</text>
+        @if (bar.outside) {
+          <text [attr.x]="bar.x + BW / 2" [attr.y]="BASE + 26" class="outside-label">not used</text>
+        }
       }
       @if (bars().length) {
         <text [attr.x]="bars()[bars().length - 1].x + BW / 2" [attr.y]="BASE + 26" class="this-week">this week</text>
@@ -29,6 +38,7 @@ import { formatDay } from './format';
     .median { stroke: var(--ink); stroke-dasharray: 4 3; }
     .axis { stroke: var(--line); }
     .bar { fill: #a9b0ba; }
+    .bar.outside { fill: #a9b0ba; opacity: 0.35; }
     .bar.current { fill: var(--dot); }
     .bar.current.above { fill: var(--above); }
     .bar.current.below { fill: var(--below); }
@@ -36,10 +46,11 @@ import { formatDay } from './format';
     .value { font-size: 11px; fill: var(--ink); }
     .week { font-size: 10px; fill: var(--muted); }
     .this-week { font-size: 10px; font-weight: 600; fill: var(--ink); }
+    .outside-label { font-size: 9px; fill: var(--muted); font-style: italic; }
   `
 })
 export class WeekHistoryChart {
-  readonly history = input.required<WeekCount[]>();
+  readonly history = input.required<HistoryWeek[]>();
   readonly median = input.required<number>();
   readonly low = input.required<number>();
   readonly high = input.required<number>();
@@ -61,12 +72,16 @@ export class WeekHistoryChart {
       count: h.count,
       label: formatDay(h.weekStart),
       x: 30 + i * (this.BW + gap),
-      last: i === n - 1
+      last: i === n - 1,
+      outside: i < n - 1 && !h.inBaseline
     }));
   });
 
   protected readonly label = computed(
-    () => `Last ${this.history().length} weeks: ${this.history().map(h => `${formatDay(h.weekStart)} ${h.count}`).join(', ')}`
+    () =>
+      `Last ${this.history().length} weeks: ${this.history()
+        .map((h, i, all) => `${formatDay(h.weekStart)} ${i < all.length - 1 && !h.inBaseline ? (h.count > 0 ? `${h.count}, not used` : 'not used') : h.count}`)
+        .join(', ')}`
   );
 
   protected y(value: number): number {

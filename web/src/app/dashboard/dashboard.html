@@ -80,7 +80,7 @@
               {{ outOfRangeCount() }} locations are outside their own range.
             }
           </h1>
-          <p class="sub">Compared with your own {{ d.baseline.weeks }} previous full weeks ({{ baselineLabel() }}).</p>
+          <p class="sub">Compared with your own {{ m.historyWeeks }} previous full weeks ({{ baselineLabel() }}).</p>
         }
       }
 
@@ -164,7 +164,7 @@
                   <p class="why">
                     <strong>{{ countOf(loc.current, d.eventType) }} this week.</strong>
                     Normal for {{ loc.location }} is {{ loc.typicalLow }}–{{ loc.typicalHigh }} (median {{ loc.median }}), based on its own
-                    {{ d.baseline.weeks }} previous weeks, {{ baselineLabel() }}. That is <strong>{{ rangeWord(loc.status) }}</strong> its normal range.
+                    {{ loc.historyWeeks }} previous weeks, {{ locationBaselineLabel(loc, d.baseline.end) }}. That is <strong>{{ rangeWord(loc.status) }}</strong> its normal range.
                   </p>
                   <app-week-history-chart
                     [history]="loc.history"

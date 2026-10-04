@@ -83,21 +83,22 @@ public sealed class BaselineService(IActivityQueries queries, TimeProvider clock
         var unusual = r.UnusualBaselineIndices.Select(i => indices[i])
             .Select(i => new WeekCount(windows[i].WeekStart, series[i])).ToList();
         return new MetricBaseline(eventType, series[^1], r.Median, r.TypicalLow, r.TypicalHigh, r.Status, r.HistoryWeeks,
-            History(series, windows), unusual);
+            History(series, windows, indices), unusual);
     }
 
     private static MetricBaseline NoDataMetric(string eventType, IReadOnlyList<WeekWindow> windows) =>
-        new(eventType, 0, null, null, null, BaselineStatus.NoData, 0, History(new int[windows.Count], windows), []);
+        new(eventType, 0, null, null, null, BaselineStatus.NoData, 0, History(new int[windows.Count], windows, []), []);
 
     private static LocationBaseline Location(string name, int[] series, DateTime firstEventUtc, IReadOnlyList<WeekWindow> windows)
     {
-        var (r, _) = Judge(series, firstEventUtc, windows);
+        var (r, indices) = Judge(series, firstEventUtc, windows);
         return new LocationBaseline(name, series[^1], r.Median, r.TypicalLow, r.TypicalHigh, r.Status, r.HistoryWeeks,
-            Math.Round(r.Deviation, 2), History(series, windows));
+            Math.Round(r.Deviation, 2), History(series, windows, indices));
     }
 
-    private static IReadOnlyList<WeekCount> History(int[] series, IReadOnlyList<WeekWindow> windows) =>
-        windows.Select((w, i) => new WeekCount(w.WeekStart, series[i])).ToList();
+    /// <param name="baselineIndices">The windows Judge counted as history, so InBaseline and HistoryWeeks cannot disagree.</param>
+    private static IReadOnlyList<HistoryWeek> History(int[] series, IReadOnlyList<WeekWindow> windows, IReadOnlyList<int> baselineIndices) =>
+        windows.Select((w, i) => new HistoryWeek(w.WeekStart, series[i], baselineIndices.Contains(i))).ToList();
 
     /// <summary>
     /// Local Mondays from the first complete week to the last complete week. Same rule as history: a week

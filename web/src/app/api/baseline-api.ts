@@ -16,6 +16,11 @@ export interface WeekCount {
   count: number;
 }
 
+/** One of the 9 weeks shown; `inBaseline` marks the weeks that counted as history (as many as `historyWeeks`). */
+export interface HistoryWeek extends WeekCount {
+  inBaseline: boolean;
+}
+
 export interface DateRange {
   start: string;
   /** Exclusive: the local Monday after the last day of the range. */
@@ -33,7 +38,7 @@ export interface MetricBaseline {
   /** Baseline weeks (0–8) that count as history; fewer than 4 is `insufficient_history`. */
   historyWeeks: number;
   /** 8 baseline weeks, then the selected week last. */
-  history: WeekCount[];
+  history: HistoryWeek[];
   /** Baseline weeks outside the range: kept in the history, they do not move it. */
   unusualBaselineWeeks: WeekCount[];
 }
@@ -48,7 +53,7 @@ export interface LocationBaseline {
   /** Baseline weeks (0–8) that count as history; fewer than 4 is `insufficient_history`. */
   historyWeeks: number;
   deviation: number;
-  history: WeekCount[];
+  history: HistoryWeek[];
 }
 
 export interface ActivityBaseline {

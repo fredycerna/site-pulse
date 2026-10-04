@@ -54,39 +54,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 53
+          "count": 53,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 880
+          "count": 880,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 102
+          "count": 102,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 59
+          "count": 59,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 76
+          "count": 76,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 69
+          "count": 69,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 79
+          "count": 79,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 50
+          "count": 50,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 87
+          "count": 87,
+          "inBaseline": false
         }
       ],
       "unusualBaselineWeeks": [
@@ -107,39 +116,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 29
+          "count": 29,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 528
+          "count": 528,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 66
+          "count": 66,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 35
+          "count": 35,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 48
+          "count": 48,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 41
+          "count": 41,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 43
+          "count": 43,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 27
+          "count": 27,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 51
+          "count": 51,
+          "inBaseline": false
         }
       ],
       "unusualBaselineWeeks": [
@@ -160,39 +178,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 15
+          "count": 15,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 230
+          "count": 230,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 20
+          "count": 20,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 13
+          "count": 13,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 15
+          "count": 15,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 15
+          "count": 15,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 21
+          "count": 21,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 15
+          "count": 15,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 17
+          "count": 17,
+          "inBaseline": false
         }
       ],
       "unusualBaselineWeeks": [
@@ -213,39 +240,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 9
+          "count": 9,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 122
+          "count": 122,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 16
+          "count": 16,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 11
+          "count": 11,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 13
+          "count": 13,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 13
+          "count": 13,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 15
+          "count": 15,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 8
+          "count": 8,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 19
+          "count": 19,
+          "inBaseline": false
         }
       ],
       "unusualBaselineWeeks": [
@@ -269,39 +305,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 49
+          "count": 49,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 7
+          "count": 7,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 9
+          "count": 9,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 7
+          "count": 7,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 2
+          "count": 2,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 9
+          "count": 9,
+          "inBaseline": false
         }
       ]
     },
@@ -317,39 +362,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 2
+          "count": 2,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 65
+          "count": 65,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 6
+          "count": 6,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 9
+          "count": 9,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 6
+          "count": 6,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 2
+          "count": 2,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 7
+          "count": 7,
+          "inBaseline": false
         }
       ]
     },
@@ -365,39 +419,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 67
+          "count": 67,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 11
+          "count": 11,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 6
+          "count": 6,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 6
+          "count": 6,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 8
+          "count": 8,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 6
+          "count": 6,
+          "inBaseline": false
         }
       ]
     },
@@ -413,39 +476,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 70
+          "count": 70,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 6
+          "count": 6,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 1
+          "count": 1,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 4
+          "count": 4,
+          "inBaseline": false
         }
       ]
     },
@@ -461,39 +533,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 55
+          "count": 55,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 8
+          "count": 8,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 9
+          "count": 9,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 7
+          "count": 7,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 4
+          "count": 4,
+          "inBaseline": false
         }
       ]
     },
@@ -509,39 +590,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 65
+          "count": 65,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 6
+          "count": 6,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 9
+          "count": 9,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 4
+          "count": 4,
+          "inBaseline": false
         }
       ]
     },
@@ -557,39 +647,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 57
+          "count": 57,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 0
+          "count": 0,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 6
+          "count": 6,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 6
+          "count": 6,
+          "inBaseline": false
         }
       ]
     },
@@ -605,39 +704,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 54
+          "count": 54,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 7
+          "count": 7,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 2
+          "count": 2,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 8
+          "count": 8,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 7
+          "count": 7,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 2
+          "count": 2,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 7
+          "count": 7,
+          "inBaseline": false
         }
       ]
     },
@@ -653,39 +761,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 1
+          "count": 1,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 47
+          "count": 47,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 6
+          "count": 6,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 6
+          "count": 6,
+          "inBaseline": false
         }
       ]
     },
@@ -701,39 +818,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 56
+          "count": 56,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 11
+          "count": 11,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 2
+          "count": 2,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 5
+          "count": 5,
+          "inBaseline": false
         }
       ]
     },
@@ -749,39 +875,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 60
+          "count": 60,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 9
+          "count": 9,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 1
+          "count": 1,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 6
+          "count": 6,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 2
+          "count": 2,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 4
+          "count": 4,
+          "inBaseline": false
         }
       ]
     },
@@ -797,39 +932,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 67
+          "count": 67,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 10
+          "count": 10,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 6
+          "count": 6,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 8
+          "count": 8,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 4
+          "count": 4,
+          "inBaseline": false
         }
       ]
     },
@@ -845,39 +989,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 50
+          "count": 50,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 2
+          "count": 2,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 1
+          "count": 1,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 6
+          "count": 6,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 7
+          "count": 7,
+          "inBaseline": false
         }
       ]
     },
@@ -893,39 +1046,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 72
+          "count": 72,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 7
+          "count": 7,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 4
+          "count": 4,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 2
+          "count": 2,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 5
+          "count": 5,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 6
+          "count": 6,
+          "inBaseline": false
         }
       ]
     },
@@ -941,39 +1103,48 @@
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-01",
-          "count": 46
+          "count": 46,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-08",
-          "count": 9
+          "count": 9,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-15",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-22",
-          "count": 6
+          "count": 6,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-06-29",
-          "count": 6
+          "count": 6,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-06",
-          "count": 2
+          "count": 2,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-13",
-          "count": 3
+          "count": 3,
+          "inBaseline": true
         },
         {
           "weekStart": "2026-07-20",
-          "count": 8
+          "count": 8,
+          "inBaseline": false
         }
       ]
     }

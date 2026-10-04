@@ -118,6 +118,26 @@ public class BaselineServiceTests
     }
 
     [Fact]
+    public async Task Each_history_week_says_whether_it_is_in_the_baseline_and_they_add_up_to_history_weeks()
+    {
+        var young = new LocationActivity("Young", WeekStart(5).AddHours(30), [new("call_received", 7, 3)]);
+        var fourWeeks = new LocationActivity("Four weeks", WeekStart(4),
+            [new("call_received", 4, 10), new("call_received", 5, 10), new("call_received", 6, 10), new("call_received", 7, 10), new("call_received", 8, 10)]);
+
+        var r = await Found(new([young, fourWeeks], 0));
+
+        bool[] InBaseline(IReadOnlyList<HistoryWeek> h) => h.Select(w => w.InBaseline).ToArray();
+        Assert.Equal([false, false, false, false, true, true, true, true, false],
+            InBaseline(r.Locations.Single(l => l.Location == "Four weeks").History));
+        Assert.Equal([false, false, false, false, false, false, true, true, false],
+            InBaseline(r.Locations.Single(l => l.Location == "Young").History));
+        // The account starts with its earliest location; the judged week itself is never baseline.
+        Assert.All(r.Metrics, m => Assert.Equal([false, false, false, false, true, true, true, true, false], InBaseline(m.History)));
+        Assert.All(r.Locations, l => Assert.Equal(l.HistoryWeeks, l.History.Count(w => w.InBaseline)));
+        Assert.All(r.Metrics, m => Assert.Equal(m.HistoryWeeks, m.History.Count(w => w.InBaseline)));
+    }
+
+    [Fact]
     public async Task Locations_use_the_requested_type_and_metrics_split_the_total()
     {
         var a = new LocationActivity("Site A", WeekStart(0),

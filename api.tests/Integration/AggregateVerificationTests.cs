@@ -150,6 +150,19 @@ public class AggregateVerificationTests
     }
 
     [Fact]
+    public async Task A_short_baseline_marks_only_the_weeks_it_used()
+    {
+        // Account 6, week of Mar 2 (E2E finding F1): 4 history weeks, Feb 2 .. Feb 23; Jan 5 .. Jan 26 hold no complete week.
+        var r = await Found(6, new DateOnly(2026, 3, 2));
+
+        var all = r.Metrics.Single(m => m.EventType == "all");
+        Assert.Equal(4, all.HistoryWeeks);
+        Assert.Equal(
+            [new DateOnly(2026, 2, 2), new DateOnly(2026, 2, 9), new DateOnly(2026, 2, 16), new DateOnly(2026, 2, 23)],
+            all.History.Where(h => h.InBaseline).Select(h => h.WeekStart));
+    }
+
+    [Fact]
     public async Task Account_without_events_is_no_data()
     {
         var r = Assert.IsType<BaselineOutcome.Found>(await Get(20)).Response;

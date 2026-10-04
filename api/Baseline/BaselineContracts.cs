@@ -28,6 +28,12 @@ public sealed record BaselineRange(DateOnly Start, DateOnly End, int Weeks);
 public sealed record WeekCount(DateOnly WeekStart, int Count);
 
 /// <summary>
+/// One of the 9 weeks shown. InBaseline is true for the baseline weeks that counted as history, the same weeks
+/// HistoryWeeks counts; false for weeks before the first complete week and for the judged week itself.
+/// </summary>
+public sealed record HistoryWeek(DateOnly WeekStart, int Count, bool InBaseline);
+
+/// <summary>
 /// Median and limits are null when Status is insufficient_history or no_data. HistoryWeeks (0–8) is how many
 /// baseline weeks counted as history; fewer than 4 is insufficient_history.
 /// </summary>
@@ -39,7 +45,7 @@ public sealed record MetricBaseline(
     int? TypicalHigh,
     BaselineStatus Status,
     int HistoryWeeks,
-    IReadOnlyList<WeekCount> History,
+    IReadOnlyList<HistoryWeek> History,
     IReadOnlyList<WeekCount> UnusualBaselineWeeks);
 
 public sealed record LocationBaseline(
@@ -51,7 +57,7 @@ public sealed record LocationBaseline(
     BaselineStatus Status,
     int HistoryWeeks,
     double Deviation,
-    IReadOnlyList<WeekCount> History);
+    IReadOnlyList<HistoryWeek> History);
 
 public sealed record DataNotes(int DuplicateRowsIgnored);
 

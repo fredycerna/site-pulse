@@ -4,11 +4,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, map, of, startWith, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountSummary, AccountsApi } from '../api/accounts-api';
-import { ActivityBaseline, BaselineApi, BaselineQuery, EventType } from '../api/baseline-api';
+import { ActivityBaseline, BaselineApi, BaselineQuery, EventType, LocationBaseline } from '../api/baseline-api';
 import {
   METRIC_LABELS,
   METRIC_VERBS,
   addDays,
+  baselineLabel,
   countOf,
   formatClock,
   formatDay,
@@ -120,10 +121,16 @@ export class Dashboard {
     return data ? rangeLabel(data.week.start, data.week.end, true) : '';
   });
 
+  /** The weeks the selected metric really used, as marked by the API. */
   protected readonly baselineLabel = computed(() => {
     const data = this.data();
-    return data ? rangeLabel(data.baseline.start, data.baseline.end) : '';
+    const metric = this.selectedMetric();
+    return data && metric ? baselineLabel(metric.history, data.baseline.end) : '';
   });
+
+  protected locationBaselineLabel(loc: LocationBaseline, endExclusive: string): string {
+    return baselineLabel(loc.history, endExclusive);
+  }
 
   protected readonly clockLabel = computed(() => {
     const data = this.data();
