@@ -17,6 +17,13 @@ public sealed class BaselineService(IActivityQueries queries, TimeProvider clock
         if (week is { } requested && WeekWindowCalculator.ValidateRequestedWeek(tz, nowUtc, requested) is { } reason)
             return new BaselineOutcome.InvalidWeek(reason);
 
+        // Same rule as the week picker: an account with data cannot be judged before its first complete week.
+        // An account without events has no such week and keeps answering no_data.
+        var availableWeeks = AvailableWeeks(account.FirstEventUtc, tz, nowUtc);
+        if (week is { } early && availableWeeks.Count > 0 && early < availableWeeks[0])
+            return new BaselineOutcome.InvalidWeek(
+                $"week {early:yyyy-MM-dd} is before this account's first complete week with data, {availableWeeks[0]:yyyy-MM-dd}.");
+
         var windows = WeekWindowCalculator.Compute(tz, nowUtc, week);
         var activity = await queries.GetWeeklyActivityAsync(account.Id, windows, ct);
 
@@ -36,7 +43,7 @@ public sealed class BaselineService(IActivityQueries queries, TimeProvider clock
             new BaselineRange(windows[0].WeekStart, current.WeekStart, windows.Count - 1),
             eventType,
             nowUtc,
-            AvailableWeeks(account.FirstEventUtc, tz, nowUtc),
+            availableWeeks,
             metrics,
             locations,
             new DataNotes(activity.DuplicateRowsIgnored)));

@@ -67,6 +67,29 @@ public class BaselineServiceTests
     }
 
     [Fact]
+    public async Task Week_before_the_first_complete_week_is_invalid_and_names_that_week()
+    {
+        // First event mid-week 0 (Tue May 26), so the first complete week is Jun 1 (E2E findings F3 and F4).
+        var account = new AccountRecord(1, "Test", "UTC", WeekStart(0).AddDays(1));
+        var service = new BaselineService(new FakeQueries(account, new([], 0)), new FixedClock(Now));
+
+        var partial = Assert.IsType<BaselineOutcome.InvalidWeek>(await service.GetAsync(1, "all", new DateOnly(2026, 5, 25)));
+        var older = Assert.IsType<BaselineOutcome.InvalidWeek>(await service.GetAsync(1, "all", new DateOnly(2025, 6, 2)));
+
+        Assert.Contains("2026-06-01", partial.Reason);
+        Assert.Contains("2026-06-01", older.Reason);
+        Assert.IsType<BaselineOutcome.Found>(await service.GetAsync(1, "all", new DateOnly(2026, 6, 1)));
+    }
+
+    [Fact]
+    public async Task Account_without_events_accepts_any_finished_week_as_no_data()
+    {
+        var r = await Found(new([], 0), week: new DateOnly(2025, 6, 2));
+
+        Assert.All(r.Metrics, m => Assert.Equal(BaselineStatus.NoData, m.Status));
+    }
+
+    [Fact]
     public async Task Account_without_events_is_no_data_with_all_four_metrics()
     {
         var r = await Found(new([], 0));
