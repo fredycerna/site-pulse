@@ -300,6 +300,8 @@ describe('Dashboard', () => {
 
       const rules = Array.from(el.querySelectorAll('.two .card:first-child li')).map(li => li.textContent?.replace(/\s+/g, ' ').trim());
       expect(rules.some(r => r?.includes('A week with no activity counts as 0.'))).toBe(true);
+      // A fixed rule, true also for a young account judged on fewer weeks (E2E finding F12).
+      expect(rules).toContain('Each location is compared with up to 8 previous full weeks of its own history. A week with no activity counts as 0.');
     });
 
     it('does not present a failed load as an account without data', async () => {
