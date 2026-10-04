@@ -95,6 +95,42 @@ describe('Dashboard', () => {
     });
   });
 
+  it('retries the same baseline request from the error state', async () => {
+    const fixture = TestBed.createComponent(Dashboard);
+    http.expectOne('/api/accounts').flush(ACCOUNTS);
+    await fixture.whenStable();
+    const first = http.expectOne(r => r.url.endsWith('/activity-baseline'));
+    first.flush(null, { status: 500, statusText: 'Server Error' });
+    await fixture.whenStable();
+    const el = fixture.nativeElement as HTMLElement;
+
+    Array.from(el.querySelectorAll<HTMLButtonElement>('[role="alert"] button')).find(b => b.textContent?.trim() === 'Try again')!.click();
+    await fixture.whenStable();
+    const second = http.expectOne(r => r.url.endsWith('/activity-baseline'));
+    expect(second.request.urlWithParams).toBe(first.request.urlWithParams);
+    second.flush(baseline());
+    await fixture.whenStable();
+
+    expect(el.querySelector('[role="alert"]')).toBeNull();
+    expect(el.querySelector('h1')).toBeTruthy();
+  });
+
+  it('retries the accounts list from its error state', async () => {
+    const fixture = TestBed.createComponent(Dashboard);
+    http.expectOne('/api/accounts').flush('down', { status: 503, statusText: 'Service Unavailable' });
+    await fixture.whenStable();
+    const el = fixture.nativeElement as HTMLElement;
+
+    Array.from(el.querySelectorAll<HTMLButtonElement>('[role="alert"] button')).find(b => b.textContent?.trim() === 'Try again')!.click();
+    await fixture.whenStable();
+    http.expectOne('/api/accounts').flush(ACCOUNTS);
+    await fixture.whenStable();
+    http.expectOne(r => r.url.endsWith('/activity-baseline')).flush(baseline());
+    await fixture.whenStable();
+
+    expect(el.querySelectorAll('select#account option')).toHaveLength(2);
+  });
+
   it('agrees the verb with a plural metric name', async () => {
     const data = baseline();
     data.eventType = 'call_received';
@@ -124,6 +160,8 @@ describe('Dashboard', () => {
 
     const alert = (fixture.nativeElement as HTMLElement).querySelector('[role="alert"]');
     expect(alert?.textContent).toContain('week must be a Monday.');
+    // Asking again would get the same 400, so there is no "Try again" here.
+    expect(Array.from(alert?.querySelectorAll('button') ?? []).map(b => b.textContent?.trim())).not.toContain('Try again');
   });
 
   function withoutBaseline(historyWeeks: number): ActivityBaseline {

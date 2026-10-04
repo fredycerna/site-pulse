@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
-import { catchError, map, of, startWith, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, map, of, startWith, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountSummary, AccountsApi } from '../api/accounts-api';
 import { ActivityBaseline, BaselineApi, BaselineQuery, EventType, LocationBaseline } from '../api/baseline-api';
@@ -27,7 +27,8 @@ import { WeekHistoryChart } from './week-history-chart';
 /** Full weeks the API needs before a baseline exists (PLAN.md §5). */
 const MIN_HISTORY_WEEKS = 4;
 
-type Load<T> = { kind: 'loading' } | { kind: 'error'; message: string } | { kind: 'ready'; data: T };
+/** `retryable`: no answer or a server error, where trying the same request again can help; a 4xx would not. */
+type Load<T> = { kind: 'loading' } | { kind: 'error'; message: string; retryable: boolean } | { kind: 'ready'; data: T };
 
 @Component({
   selector: 'app-dashboard',
@@ -60,10 +61,21 @@ export class Dashboard {
   protected readonly eventType = computed(() => this.filters().eventType);
   protected readonly week = computed(() => this.filters().week);
 
+  /** Bumped by "Try again" to repeat the same request. A subject for accounts, so the first request still starts at construction. */
+  private readonly accountsAttempt = new BehaviorSubject(0);
+  private readonly baselineAttempt = signal(0);
+
   protected readonly accounts = toSignal(
-    this.accountsApi.list().pipe(
-      map((data): Load<AccountSummary[]> => ({ kind: 'ready', data })),
-      catchError(() => of<Load<AccountSummary[]>>({ kind: 'error', message: 'Could not load accounts. Is the API running?' }))
+    this.accountsAttempt.pipe(
+      switchMap(() =>
+        this.accountsApi.list().pipe(
+          map((data): Load<AccountSummary[]> => ({ kind: 'ready', data })),
+          catchError(() =>
+            of<Load<AccountSummary[]>>({ kind: 'error', message: 'Could not load accounts. Is the API running?', retryable: true })
+          ),
+          startWith<Load<AccountSummary[]>>({ kind: 'loading' })
+        )
+      )
     ),
     { initialValue: { kind: 'loading' } as Load<AccountSummary[]> }
   );
@@ -81,14 +93,18 @@ export class Dashboard {
     return accountId === null ? null : { accountId, eventType: this.eventType(), week: this.week() };
   });
 
+  private readonly request = computed(() => ({ query: this.query(), attempt: this.baselineAttempt() }));
+
   protected readonly baseline = toSignal(
-    toObservable(this.query).pipe(
-      switchMap(query =>
+    toObservable(this.request).pipe(
+      switchMap(({ query }) =>
         query === null
           ? of<Load<ActivityBaseline> | null>(null)
           : this.baselineApi.get(query).pipe(
               map((data): Load<ActivityBaseline> => ({ kind: 'ready', data })),
-              catchError((err: unknown) => of<Load<ActivityBaseline>>({ kind: 'error', message: errorMessage(err) })),
+              catchError((err: unknown) =>
+                of<Load<ActivityBaseline>>({ kind: 'error', message: errorMessage(err), retryable: isRetryable(err) })
+              ),
               startWith<Load<ActivityBaseline>>({ kind: 'loading' })
             )
       )
@@ -182,6 +198,14 @@ export class Dashboard {
     void this.router.navigate([], { relativeTo: this.route, queryParams, queryParamsHandling: 'merge' });
   }
 
+  protected retryAccounts(): void {
+    this.accountsAttempt.next(this.accountsAttempt.value + 1);
+  }
+
+  protected retryBaseline(): void {
+    this.baselineAttempt.update(n => n + 1);
+  }
+
   protected toggle(location: string): void {
     this.expanded.update(current => (current === location ? null : location));
   }
@@ -189,6 +213,10 @@ export class Dashboard {
   protected cardScale(current: number, high: number | null): number {
     return Math.max(1, high ?? 0, current) * 1.25;
   }
+}
+
+function isRetryable(err: unknown): boolean {
+  return !(err instanceof HttpErrorResponse) || err.status === 0 || err.status >= 500;
 }
 
 function errorMessage(err: unknown): string {

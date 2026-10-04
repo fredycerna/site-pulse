@@ -5,7 +5,10 @@
         <p class="note">Loading accounts…</p>
       }
       @case ('error') {
-        <p role="alert" class="alert">Could not load accounts. Is the API running?</p>
+        <p role="alert" class="alert">
+          Could not load accounts. Is the API running?
+          <button type="button" class="link" (click)="retryAccounts()">Try again</button>
+        </p>
       }
     }
     @if (accounts(); as accounts) {
@@ -45,6 +48,9 @@
           <section class="card" role="alert">
             <strong>We could not load this view.</strong>
             <p class="note">{{ b.message }}</p>
+            @if (b.retryable) {
+              <button type="button" class="link" (click)="retryBaseline()">Try again</button>
+            }
             @if (week()) {
               <button type="button" class="link" (click)="selectWeek(null)">Show the last complete week</button>
             }
