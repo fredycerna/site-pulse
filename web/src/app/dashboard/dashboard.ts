@@ -11,6 +11,7 @@ import {
   countOf,
   formatClock,
   formatDay,
+  hasRange,
   isOutOfRange,
   rangeLabel,
   rangeWord,
@@ -22,9 +23,6 @@ import { parseFilters } from './url-filters';
 import { WeekHistoryChart } from './week-history-chart';
 
 type Load<T> = { kind: 'loading' } | { kind: 'error'; message: string } | { kind: 'ready'; data: T };
-
-/** Minimum full weeks before a baseline exists (PLAN.md §5). */
-const MIN_HISTORY_WEEKS = 4;
 
 @Component({
   selector: 'app-dashboard',
@@ -43,6 +41,7 @@ export class Dashboard {
   protected readonly countOf = countOf;
   protected readonly formatDay = formatDay;
   protected readonly isOutOfRange = isOutOfRange;
+  protected readonly hasRange = hasRange;
 
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
@@ -120,14 +119,6 @@ export class Dashboard {
     return data ? formatClock(data.nowUtc) : '';
   });
 
-  /** Full weeks still missing before a baseline exists: weeks with data before the selected one come from `availableWeeks`. */
-  protected readonly weeksToGo = computed(() => {
-    const data = this.data();
-    if (!data) return 0;
-    const before = data.availableWeeks.indexOf(data.week.start);
-    return Math.max(1, MIN_HISTORY_WEEKS - Math.max(before, 0));
-  });
-
   /** Newest first; the last available week is the default and is labeled as such. */
   protected readonly weekOptions = computed(() => {
     const weeks = this.data()?.availableWeeks ?? [];
@@ -146,7 +137,7 @@ export class Dashboard {
 
   /** One scale for all location rows so their bars are comparable. */
   protected readonly locationScale = computed(
-    () => Math.max(1, ...(this.data()?.locations ?? []).map(l => Math.max(l.typicalHigh, l.current))) * 1.1
+    () => Math.max(1, ...(this.data()?.locations ?? []).map(l => Math.max(l.typicalHigh ?? 0, l.current))) * 1.1
   );
 
   /** The open location detail. Resets with new data to the first location when it is out of range, as in the mockup. */
@@ -177,8 +168,8 @@ export class Dashboard {
     this.expanded.update(current => (current === location ? null : location));
   }
 
-  protected cardScale(current: number, high: number): number {
-    return Math.max(1, high, current) * 1.25;
+  protected cardScale(current: number, high: number | null): number {
+    return Math.max(1, high ?? 0, current) * 1.25;
   }
 }
 

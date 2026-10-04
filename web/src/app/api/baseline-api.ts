@@ -22,12 +22,13 @@ export interface DateRange {
   end: string;
 }
 
+/** `median` and the range are null when there is no range: `no_data` or `insufficient_history`. */
 export interface MetricBaseline {
   eventType: EventType;
   current: number;
-  median: number;
-  typicalLow: number;
-  typicalHigh: number;
+  median: number | null;
+  typicalLow: number | null;
+  typicalHigh: number | null;
   status: BaselineStatus;
   /** 8 baseline weeks, then the selected week last. */
   history: WeekCount[];
@@ -38,9 +39,9 @@ export interface MetricBaseline {
 export interface LocationBaseline {
   location: string;
   current: number;
-  median: number;
-  typicalLow: number;
-  typicalHigh: number;
+  median: number | null;
+  typicalLow: number | null;
+  typicalHigh: number | null;
   status: BaselineStatus;
   deviation: number;
   history: WeekCount[];
@@ -56,6 +57,7 @@ export interface ActivityBaseline {
   metrics: MetricBaseline[];
   /** Already sorted by the API: out of range first. */
   locations: LocationBaseline[];
+  /** Duplicates ignored inside the 9 weeks shown (the selected week and its baseline). */
   dataNotes: { duplicateRowsIgnored: number };
 }
 

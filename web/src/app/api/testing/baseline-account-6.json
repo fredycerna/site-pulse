@@ -16,6 +16,7 @@
   "eventType": "all",
   "nowUtc": "2026-07-27T14:00:00Z",
   "availableWeeks": [
+    "2026-01-26",
     "2026-02-02",
     "2026-02-09",
     "2026-02-16",
@@ -98,7 +99,7 @@
     {
       "eventType": "call_received",
       "current": 51,
-      "median": 42.0,
+      "median": 42,
       "typicalLow": 13,
       "typicalHigh": 71,
       "status": "typical",
@@ -150,7 +151,7 @@
     {
       "eventType": "lead_created",
       "current": 17,
-      "median": 15.0,
+      "median": 15,
       "typicalLow": 8,
       "typicalHigh": 22,
       "status": "typical",
@@ -202,7 +203,7 @@
     {
       "eventType": "appointment_set",
       "current": 19,
-      "median": 13.0,
+      "median": 13,
       "typicalLow": 6,
       "typicalHigh": 20,
       "status": "typical",
@@ -254,150 +255,9 @@
   ],
   "locations": [
     {
-      "location": "Site M",
-      "current": 7,
-      "median": 3.5,
-      "typicalLow": 0,
-      "typicalHigh": 7,
-      "status": "typical",
-      "deviation": 1.57,
-      "history": [
-        {
-          "weekStart": "2026-05-25",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-06-01",
-          "count": 50
-        },
-        {
-          "weekStart": "2026-06-08",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-06-15",
-          "count": 2
-        },
-        {
-          "weekStart": "2026-06-22",
-          "count": 4
-        },
-        {
-          "weekStart": "2026-06-29",
-          "count": 1
-        },
-        {
-          "weekStart": "2026-07-06",
-          "count": 6
-        },
-        {
-          "weekStart": "2026-07-13",
-          "count": 5
-        },
-        {
-          "weekStart": "2026-07-20",
-          "count": 7
-        }
-      ]
-    },
-    {
-      "location": "Site O",
-      "current": 8,
-      "median": 4.5,
-      "typicalLow": 1,
-      "typicalHigh": 8,
-      "status": "typical",
-      "deviation": 1.57,
-      "history": [
-        {
-          "weekStart": "2026-05-25",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-06-01",
-          "count": 46
-        },
-        {
-          "weekStart": "2026-06-08",
-          "count": 9
-        },
-        {
-          "weekStart": "2026-06-15",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-06-22",
-          "count": 6
-        },
-        {
-          "weekStart": "2026-06-29",
-          "count": 6
-        },
-        {
-          "weekStart": "2026-07-06",
-          "count": 2
-        },
-        {
-          "weekStart": "2026-07-13",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-07-20",
-          "count": 8
-        }
-      ]
-    },
-    {
-      "location": "Site I",
-      "current": 6,
-      "median": 4.0,
-      "typicalLow": 0,
-      "typicalHigh": 8,
-      "status": "typical",
-      "deviation": 1.0,
-      "history": [
-        {
-          "weekStart": "2026-05-25",
-          "count": 1
-        },
-        {
-          "weekStart": "2026-06-01",
-          "count": 47
-        },
-        {
-          "weekStart": "2026-06-08",
-          "count": 5
-        },
-        {
-          "weekStart": "2026-06-15",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-06-22",
-          "count": 4
-        },
-        {
-          "weekStart": "2026-06-29",
-          "count": 6
-        },
-        {
-          "weekStart": "2026-07-06",
-          "count": 4
-        },
-        {
-          "weekStart": "2026-07-13",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-07-20",
-          "count": 6
-        }
-      ]
-    },
-    {
       "location": "Site A",
       "current": 9,
-      "median": 6.0,
+      "median": 6,
       "typicalLow": 0,
       "typicalHigh": 13,
       "status": "typical",
@@ -442,150 +302,9 @@
       ]
     },
     {
-      "location": "Site J",
-      "current": 5,
-      "median": 3.5,
-      "typicalLow": 0,
-      "typicalHigh": 7,
-      "status": "typical",
-      "deviation": 0.8,
-      "history": [
-        {
-          "weekStart": "2026-05-25",
-          "count": 4
-        },
-        {
-          "weekStart": "2026-06-01",
-          "count": 56
-        },
-        {
-          "weekStart": "2026-06-08",
-          "count": 11
-        },
-        {
-          "weekStart": "2026-06-15",
-          "count": 2
-        },
-        {
-          "weekStart": "2026-06-22",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-06-29",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-07-06",
-          "count": 5
-        },
-        {
-          "weekStart": "2026-07-13",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-07-20",
-          "count": 5
-        }
-      ]
-    },
-    {
-      "location": "Site G",
-      "current": 6,
-      "median": 4.5,
-      "typicalLow": 1,
-      "typicalHigh": 8,
-      "status": "typical",
-      "deviation": 0.71,
-      "history": [
-        {
-          "weekStart": "2026-05-25",
-          "count": 5
-        },
-        {
-          "weekStart": "2026-06-01",
-          "count": 57
-        },
-        {
-          "weekStart": "2026-06-08",
-          "count": 4
-        },
-        {
-          "weekStart": "2026-06-15",
-          "count": 5
-        },
-        {
-          "weekStart": "2026-06-22",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-06-29",
-          "count": 0
-        },
-        {
-          "weekStart": "2026-07-06",
-          "count": 4
-        },
-        {
-          "weekStart": "2026-07-13",
-          "count": 6
-        },
-        {
-          "weekStart": "2026-07-20",
-          "count": 6
-        }
-      ]
-    },
-    {
-      "location": "Site N",
-      "current": 6,
-      "median": 4.5,
-      "typicalLow": 1,
-      "typicalHigh": 8,
-      "status": "typical",
-      "deviation": 0.71,
-      "history": [
-        {
-          "weekStart": "2026-05-25",
-          "count": 4
-        },
-        {
-          "weekStart": "2026-06-01",
-          "count": 72
-        },
-        {
-          "weekStart": "2026-06-08",
-          "count": 5
-        },
-        {
-          "weekStart": "2026-06-15",
-          "count": 7
-        },
-        {
-          "weekStart": "2026-06-22",
-          "count": 4
-        },
-        {
-          "weekStart": "2026-06-29",
-          "count": 2
-        },
-        {
-          "weekStart": "2026-07-06",
-          "count": 5
-        },
-        {
-          "weekStart": "2026-07-13",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-07-20",
-          "count": 6
-        }
-      ]
-    },
-    {
       "location": "Site B",
       "current": 7,
-      "median": 5.0,
+      "median": 5,
       "typicalLow": 0,
       "typicalHigh": 10,
       "status": "typical",
@@ -630,111 +349,17 @@
       ]
     },
     {
-      "location": "Site E",
-      "current": 4,
-      "median": 6.0,
-      "typicalLow": 1,
-      "typicalHigh": 11,
-      "status": "typical",
-      "deviation": -0.67,
-      "history": [
-        {
-          "weekStart": "2026-05-25",
-          "count": 4
-        },
-        {
-          "weekStart": "2026-06-01",
-          "count": 55
-        },
-        {
-          "weekStart": "2026-06-08",
-          "count": 8
-        },
-        {
-          "weekStart": "2026-06-15",
-          "count": 4
-        },
-        {
-          "weekStart": "2026-06-22",
-          "count": 5
-        },
-        {
-          "weekStart": "2026-06-29",
-          "count": 9
-        },
-        {
-          "weekStart": "2026-07-06",
-          "count": 5
-        },
-        {
-          "weekStart": "2026-07-13",
-          "count": 7
-        },
-        {
-          "weekStart": "2026-07-20",
-          "count": 4
-        }
-      ]
-    },
-    {
-      "location": "Site H",
-      "current": 7,
-      "median": 5.0,
+      "location": "Site C",
+      "current": 6,
+      "median": 6,
       "typicalLow": 0,
-      "typicalHigh": 12,
+      "typicalHigh": 13,
       "status": "typical",
-      "deviation": 0.54,
+      "deviation": 0,
       "history": [
         {
           "weekStart": "2026-05-25",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-06-01",
-          "count": 54
-        },
-        {
-          "weekStart": "2026-06-08",
-          "count": 7
-        },
-        {
-          "weekStart": "2026-06-15",
-          "count": 2
-        },
-        {
-          "weekStart": "2026-06-22",
-          "count": 8
-        },
-        {
-          "weekStart": "2026-06-29",
-          "count": 7
-        },
-        {
-          "weekStart": "2026-07-06",
-          "count": 2
-        },
-        {
-          "weekStart": "2026-07-13",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-07-20",
-          "count": 7
-        }
-      ]
-    },
-    {
-      "location": "Site L",
-      "current": 4,
-      "median": 5.5,
-      "typicalLow": 0,
-      "typicalHigh": 11,
-      "status": "typical",
-      "deviation": -0.51,
-      "history": [
-        {
-          "weekStart": "2026-05-25",
-          "count": 5
+          "count": 4
         },
         {
           "weekStart": "2026-06-01",
@@ -742,7 +367,7 @@
         },
         {
           "weekStart": "2026-06-08",
-          "count": 10
+          "count": 11
         },
         {
           "weekStart": "2026-06-15",
@@ -754,7 +379,7 @@
         },
         {
           "weekStart": "2026-06-29",
-          "count": 4
+          "count": 6
         },
         {
           "weekStart": "2026-07-06",
@@ -762,105 +387,11 @@
         },
         {
           "weekStart": "2026-07-13",
-          "count": 4
+          "count": 3
         },
         {
           "weekStart": "2026-07-20",
-          "count": 4
-        }
-      ]
-    },
-    {
-      "location": "Site F",
-      "current": 4,
-      "median": 5.0,
-      "typicalLow": 1,
-      "typicalHigh": 9,
-      "status": "typical",
-      "deviation": -0.45,
-      "history": [
-        {
-          "weekStart": "2026-05-25",
-          "count": 4
-        },
-        {
-          "weekStart": "2026-06-01",
-          "count": 65
-        },
-        {
-          "weekStart": "2026-06-08",
-          "count": 5
-        },
-        {
-          "weekStart": "2026-06-15",
           "count": 6
-        },
-        {
-          "weekStart": "2026-06-22",
-          "count": 5
-        },
-        {
-          "weekStart": "2026-06-29",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-07-06",
-          "count": 9
-        },
-        {
-          "weekStart": "2026-07-13",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-07-20",
-          "count": 4
-        }
-      ]
-    },
-    {
-      "location": "Site K",
-      "current": 4,
-      "median": 5.0,
-      "typicalLow": 0,
-      "typicalHigh": 12,
-      "status": "typical",
-      "deviation": -0.27,
-      "history": [
-        {
-          "weekStart": "2026-05-25",
-          "count": 3
-        },
-        {
-          "weekStart": "2026-06-01",
-          "count": 60
-        },
-        {
-          "weekStart": "2026-06-08",
-          "count": 9
-        },
-        {
-          "weekStart": "2026-06-15",
-          "count": 5
-        },
-        {
-          "weekStart": "2026-06-22",
-          "count": 1
-        },
-        {
-          "weekStart": "2026-06-29",
-          "count": 5
-        },
-        {
-          "weekStart": "2026-07-06",
-          "count": 6
-        },
-        {
-          "weekStart": "2026-07-13",
-          "count": 2
-        },
-        {
-          "weekStart": "2026-07-20",
-          "count": 4
         }
       ]
     },
@@ -912,13 +443,13 @@
       ]
     },
     {
-      "location": "Site C",
-      "current": 6,
-      "median": 6.0,
-      "typicalLow": 0,
-      "typicalHigh": 13,
+      "location": "Site E",
+      "current": 4,
+      "median": 6,
+      "typicalLow": 1,
+      "typicalHigh": 11,
       "status": "typical",
-      "deviation": 0.0,
+      "deviation": -0.67,
       "history": [
         {
           "weekStart": "2026-05-25",
@@ -926,11 +457,481 @@
         },
         {
           "weekStart": "2026-06-01",
-          "count": 67
+          "count": 55
+        },
+        {
+          "weekStart": "2026-06-08",
+          "count": 8
+        },
+        {
+          "weekStart": "2026-06-15",
+          "count": 4
+        },
+        {
+          "weekStart": "2026-06-22",
+          "count": 5
+        },
+        {
+          "weekStart": "2026-06-29",
+          "count": 9
+        },
+        {
+          "weekStart": "2026-07-06",
+          "count": 5
+        },
+        {
+          "weekStart": "2026-07-13",
+          "count": 7
+        },
+        {
+          "weekStart": "2026-07-20",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "location": "Site F",
+      "current": 4,
+      "median": 5,
+      "typicalLow": 1,
+      "typicalHigh": 9,
+      "status": "typical",
+      "deviation": -0.45,
+      "history": [
+        {
+          "weekStart": "2026-05-25",
+          "count": 4
+        },
+        {
+          "weekStart": "2026-06-01",
+          "count": 65
+        },
+        {
+          "weekStart": "2026-06-08",
+          "count": 5
+        },
+        {
+          "weekStart": "2026-06-15",
+          "count": 6
+        },
+        {
+          "weekStart": "2026-06-22",
+          "count": 5
+        },
+        {
+          "weekStart": "2026-06-29",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-07-06",
+          "count": 9
+        },
+        {
+          "weekStart": "2026-07-13",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-07-20",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "location": "Site G",
+      "current": 6,
+      "median": 4.5,
+      "typicalLow": 1,
+      "typicalHigh": 8,
+      "status": "typical",
+      "deviation": 0.71,
+      "history": [
+        {
+          "weekStart": "2026-05-25",
+          "count": 5
+        },
+        {
+          "weekStart": "2026-06-01",
+          "count": 57
+        },
+        {
+          "weekStart": "2026-06-08",
+          "count": 4
+        },
+        {
+          "weekStart": "2026-06-15",
+          "count": 5
+        },
+        {
+          "weekStart": "2026-06-22",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-06-29",
+          "count": 0
+        },
+        {
+          "weekStart": "2026-07-06",
+          "count": 4
+        },
+        {
+          "weekStart": "2026-07-13",
+          "count": 6
+        },
+        {
+          "weekStart": "2026-07-20",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "location": "Site H",
+      "current": 7,
+      "median": 5,
+      "typicalLow": 0,
+      "typicalHigh": 12,
+      "status": "typical",
+      "deviation": 0.54,
+      "history": [
+        {
+          "weekStart": "2026-05-25",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-06-01",
+          "count": 54
+        },
+        {
+          "weekStart": "2026-06-08",
+          "count": 7
+        },
+        {
+          "weekStart": "2026-06-15",
+          "count": 2
+        },
+        {
+          "weekStart": "2026-06-22",
+          "count": 8
+        },
+        {
+          "weekStart": "2026-06-29",
+          "count": 7
+        },
+        {
+          "weekStart": "2026-07-06",
+          "count": 2
+        },
+        {
+          "weekStart": "2026-07-13",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-07-20",
+          "count": 7
+        }
+      ]
+    },
+    {
+      "location": "Site I",
+      "current": 6,
+      "median": 4,
+      "typicalLow": 0,
+      "typicalHigh": 8,
+      "status": "typical",
+      "deviation": 1,
+      "history": [
+        {
+          "weekStart": "2026-05-25",
+          "count": 1
+        },
+        {
+          "weekStart": "2026-06-01",
+          "count": 47
+        },
+        {
+          "weekStart": "2026-06-08",
+          "count": 5
+        },
+        {
+          "weekStart": "2026-06-15",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-06-22",
+          "count": 4
+        },
+        {
+          "weekStart": "2026-06-29",
+          "count": 6
+        },
+        {
+          "weekStart": "2026-07-06",
+          "count": 4
+        },
+        {
+          "weekStart": "2026-07-13",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-07-20",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "location": "Site J",
+      "current": 5,
+      "median": 3.5,
+      "typicalLow": 0,
+      "typicalHigh": 7,
+      "status": "typical",
+      "deviation": 0.8,
+      "history": [
+        {
+          "weekStart": "2026-05-25",
+          "count": 4
+        },
+        {
+          "weekStart": "2026-06-01",
+          "count": 56
         },
         {
           "weekStart": "2026-06-08",
           "count": 11
+        },
+        {
+          "weekStart": "2026-06-15",
+          "count": 2
+        },
+        {
+          "weekStart": "2026-06-22",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-06-29",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-07-06",
+          "count": 5
+        },
+        {
+          "weekStart": "2026-07-13",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-07-20",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "location": "Site K",
+      "current": 4,
+      "median": 5,
+      "typicalLow": 0,
+      "typicalHigh": 12,
+      "status": "typical",
+      "deviation": -0.27,
+      "history": [
+        {
+          "weekStart": "2026-05-25",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-06-01",
+          "count": 60
+        },
+        {
+          "weekStart": "2026-06-08",
+          "count": 9
+        },
+        {
+          "weekStart": "2026-06-15",
+          "count": 5
+        },
+        {
+          "weekStart": "2026-06-22",
+          "count": 1
+        },
+        {
+          "weekStart": "2026-06-29",
+          "count": 5
+        },
+        {
+          "weekStart": "2026-07-06",
+          "count": 6
+        },
+        {
+          "weekStart": "2026-07-13",
+          "count": 2
+        },
+        {
+          "weekStart": "2026-07-20",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "location": "Site L",
+      "current": 4,
+      "median": 5.5,
+      "typicalLow": 0,
+      "typicalHigh": 11,
+      "status": "typical",
+      "deviation": -0.51,
+      "history": [
+        {
+          "weekStart": "2026-05-25",
+          "count": 5
+        },
+        {
+          "weekStart": "2026-06-01",
+          "count": 67
+        },
+        {
+          "weekStart": "2026-06-08",
+          "count": 10
+        },
+        {
+          "weekStart": "2026-06-15",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-06-22",
+          "count": 6
+        },
+        {
+          "weekStart": "2026-06-29",
+          "count": 4
+        },
+        {
+          "weekStart": "2026-07-06",
+          "count": 8
+        },
+        {
+          "weekStart": "2026-07-13",
+          "count": 4
+        },
+        {
+          "weekStart": "2026-07-20",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "location": "Site M",
+      "current": 7,
+      "median": 3.5,
+      "typicalLow": 0,
+      "typicalHigh": 7,
+      "status": "typical",
+      "deviation": 1.57,
+      "history": [
+        {
+          "weekStart": "2026-05-25",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-06-01",
+          "count": 50
+        },
+        {
+          "weekStart": "2026-06-08",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-06-15",
+          "count": 2
+        },
+        {
+          "weekStart": "2026-06-22",
+          "count": 4
+        },
+        {
+          "weekStart": "2026-06-29",
+          "count": 1
+        },
+        {
+          "weekStart": "2026-07-06",
+          "count": 6
+        },
+        {
+          "weekStart": "2026-07-13",
+          "count": 5
+        },
+        {
+          "weekStart": "2026-07-20",
+          "count": 7
+        }
+      ]
+    },
+    {
+      "location": "Site N",
+      "current": 6,
+      "median": 4.5,
+      "typicalLow": 1,
+      "typicalHigh": 8,
+      "status": "typical",
+      "deviation": 0.71,
+      "history": [
+        {
+          "weekStart": "2026-05-25",
+          "count": 4
+        },
+        {
+          "weekStart": "2026-06-01",
+          "count": 72
+        },
+        {
+          "weekStart": "2026-06-08",
+          "count": 5
+        },
+        {
+          "weekStart": "2026-06-15",
+          "count": 7
+        },
+        {
+          "weekStart": "2026-06-22",
+          "count": 4
+        },
+        {
+          "weekStart": "2026-06-29",
+          "count": 2
+        },
+        {
+          "weekStart": "2026-07-06",
+          "count": 5
+        },
+        {
+          "weekStart": "2026-07-13",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-07-20",
+          "count": 6
+        }
+      ]
+    },
+    {
+      "location": "Site O",
+      "current": 8,
+      "median": 4.5,
+      "typicalLow": 1,
+      "typicalHigh": 8,
+      "status": "typical",
+      "deviation": 1.57,
+      "history": [
+        {
+          "weekStart": "2026-05-25",
+          "count": 3
+        },
+        {
+          "weekStart": "2026-06-01",
+          "count": 46
+        },
+        {
+          "weekStart": "2026-06-08",
+          "count": 9
         },
         {
           "weekStart": "2026-06-15",
@@ -946,7 +947,7 @@
         },
         {
           "weekStart": "2026-07-06",
-          "count": 8
+          "count": 2
         },
         {
           "weekStart": "2026-07-13",
@@ -954,12 +955,12 @@
         },
         {
           "weekStart": "2026-07-20",
-          "count": 6
+          "count": 8
         }
       ]
     }
   ],
   "dataNotes": {
-    "duplicateRowsIgnored": 4
+    "duplicateRowsIgnored": 1
   }
 }

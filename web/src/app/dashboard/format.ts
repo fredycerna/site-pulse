@@ -44,6 +44,11 @@ export function isOutOfRange(status: BaselineStatus): boolean {
   return status === 'above' || status === 'below';
 }
 
+/** Only these statuses come with a median and a normal range. */
+export function hasRange(status: BaselineStatus): boolean {
+  return status === 'typical' || isOutOfRange(status);
+}
+
 /** Local ISO dates are calendar days: format them at noon UTC so no timezone can shift the day. */
 export function formatDay(iso: string, withYear = false): string {
   return new Date(`${iso}T12:00:00Z`).toLocaleDateString('en-US', {
@@ -65,7 +70,8 @@ export function rangeLabel(start: string, endExclusive: string, withYear = false
   return `${formatDay(start)} – ${formatDay(addDays(endExclusive, -1), withYear)}`;
 }
 
-export function signedDiff(current: number, median: number): string {
+export function signedDiff(current: number, median: number | null): string {
+  if (median === null) return '';
   const diff = current - median;
   return `${diff >= 0 ? '+' : '−'}${Math.abs(diff)}`;
 }

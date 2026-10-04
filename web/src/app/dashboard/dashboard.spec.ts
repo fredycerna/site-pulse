@@ -76,15 +76,16 @@ describe('Dashboard', () => {
     expect(alert?.textContent).toContain('week must be a Monday.');
   });
 
-  it('says how many weeks are missing when there is no baseline yet', async () => {
+  it('says there is no baseline yet when the history is too short', async () => {
     const data = baseline();
     data.week = { start: '2026-02-16', end: '2026-02-23' };
-    data.metrics[0].status = 'insufficient_history';
+    data.metrics[0] = { ...data.metrics[0], status: 'insufficient_history', median: null, typicalLow: null, typicalHigh: null };
 
     const el = await render(data);
 
     expect(el.querySelector('h1')?.textContent?.trim()).toBe('No baseline yet');
-    expect(el.querySelector('.sub')?.textContent).toContain('2 weeks to go.');
+    expect(el.querySelector('.sub')?.textContent).toContain('We need at least 4 full weeks to know what is normal for you.');
+    expect(el.querySelectorAll('.mcard')[0].querySelector('app-range-bar')).toBeNull();
   });
 
   describe('locations', () => {
@@ -175,7 +176,7 @@ describe('Dashboard', () => {
 
     const notes = Array.from(el.querySelectorAll('.two .card:last-child li')).map(li => li.textContent?.replace(/\s+/g, ' ').trim());
     expect(notes).toEqual([
-      '4 duplicated events were excluded for this account.',
+      '1 duplicated event was excluded from the weeks shown.',
       'The week of Jun 1 (880 events) was exceptional. It is in your history but does not move the normal range.',
       'The week of Jul 27 is still in progress and is not compared yet.'
     ]);

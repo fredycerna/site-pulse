@@ -67,7 +67,7 @@
         @if (m.status === 'insufficient_history') {
           <h1>No baseline yet</h1>
           <p class="sub">
-            We need at least 4 full weeks to know what is normal for you. {{ weeksToGo() }} {{ weeksToGo() === 1 ? 'week' : 'weeks' }} to go.
+            We need at least 4 full weeks to know what is normal for you. Pick a later week to see a comparison.
           </p>
         } @else {
           <h1>
@@ -99,22 +99,24 @@
             </span>
             <span class="mvalue">
               <span class="big">{{ metric.current }}</span>
-              @if (metric.status !== 'insufficient_history') {
+              @if (hasRange(metric.status)) {
                 <span class="note">{{ signedDiff(metric.current, metric.median) }} vs median</span>
               }
             </span>
-            @if (metric.status !== 'insufficient_history') {
+            @if (hasRange(metric.status)) {
               <app-range-bar
                 [current]="metric.current"
-                [median]="metric.median"
-                [low]="metric.typicalLow"
-                [high]="metric.typicalHigh"
+                [median]="metric.median!"
+                [low]="metric.typicalLow!"
+                [high]="metric.typicalHigh!"
                 [status]="metric.status"
                 [max]="cardScale(metric.current, metric.typicalHigh)"
               />
               <span class="note">Normal {{ metric.typicalLow }}–{{ metric.typicalHigh }} · median {{ metric.median }}</span>
-            } @else {
+            } @else if (metric.status === 'insufficient_history') {
               <span class="note">Needs 4 full weeks of history.</span>
+            } @else {
+              <span class="note">No activity of this type yet.</span>
             }
           </button>
         }
@@ -137,14 +139,14 @@
             >
               <span class="loc-name">{{ loc.location }}</span>
               <span class="num">{{ loc.current }}</span>
-              @if (loc.status === 'insufficient_history') {
+              @if (!hasRange(loc.status)) {
                 <span class="note">Needs 4 full weeks</span>
               } @else {
                 <app-range-bar
                   [current]="loc.current"
-                  [median]="loc.median"
-                  [low]="loc.typicalLow"
-                  [high]="loc.typicalHigh"
+                  [median]="loc.median!"
+                  [low]="loc.typicalLow!"
+                  [high]="loc.typicalHigh!"
                   [status]="loc.status"
                   [max]="locationScale()"
                 />
@@ -153,7 +155,7 @@
             </button>
             @if (expanded() === loc.location) {
               <div class="detail">
-                @if (loc.status === 'insufficient_history') {
+                @if (!hasRange(loc.status)) {
                   <p class="why">
                     <strong>{{ countOf(loc.current, d.eventType) }} this week.</strong>
                     {{ loc.location }} has fewer than 4 full weeks of history, so it has no normal range yet.
@@ -166,9 +168,9 @@
                   </p>
                   <app-week-history-chart
                     [history]="loc.history"
-                    [median]="loc.median"
-                    [low]="loc.typicalLow"
-                    [high]="loc.typicalHigh"
+                    [median]="loc.median!"
+                    [low]="loc.typicalLow!"
+                    [high]="loc.typicalHigh!"
                     [status]="loc.status"
                   />
                 }
@@ -193,10 +195,10 @@
           <ul>
             @if (d.dataNotes.duplicateRowsIgnored > 0) {
               <li>
-                {{ d.dataNotes.duplicateRowsIgnored }} duplicated {{ d.dataNotes.duplicateRowsIgnored === 1 ? 'event was' : 'events were' }} excluded for this account.
+                {{ d.dataNotes.duplicateRowsIgnored }} duplicated {{ d.dataNotes.duplicateRowsIgnored === 1 ? 'event was' : 'events were' }} excluded from the weeks shown.
               </li>
             } @else {
-              <li>No duplicated events were found for this account.</li>
+              <li>No duplicated events were found in the weeks shown.</li>
             }
             @if (selectedMetric(); as m) {
               @for (w of m.unusualBaselineWeeks; track w.weekStart) {
