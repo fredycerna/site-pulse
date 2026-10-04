@@ -5,60 +5,60 @@ Living list. A box is ticked only when it was verified for real, with the eviden
 ## Deliverables from the prompt
 
 - [ ] Public repo of my own (not a fork, distinct name, no starter `docs/`) with backend, frontend and migrations
-- [ ] Migrations with the stack's standard tool (EF Core), not hand-run DDL
-- [ ] Seed loaded as-is (`db/seed/` byte-identical to the starter, checked with `shasum`)
-- [ ] Endpoint with a real aggregation
-- [ ] Angular view with an input whose state survives a reload
-- [ ] Tests that run (one line in the README on how)
-- [ ] `PLAN.md` committed before any implementation and never edited (first commit of the repo)
-- [ ] `README.md`: how to run, interpretation, assumptions, what was deferred and why, what I would do with another day, how to run the tests, deviations from the plan, real time per block
+- [x] Migrations with the stack's standard tool (EF Core), not hand-run DDL — `InitialSchema` + `AddDedupedEventsView`
+- [x] Seed loaded as-is (`db/seed/` byte-identical to the starter, checked with `shasum`) — block A, Q1 hand-off
+- [x] Endpoint with a real aggregation — `ActivityQueries.GetWeeklyActivityAsync`, one parameterized SQL query
+- [x] Angular view with an input whose state survives a reload — Q2: URL params, frontend test, manual reload in Chrome
+- [x] Tests that run (one line in the README on how) — `dotnet test` 54/54, `npm test` 27/27 (Q2)
+- [x] `PLAN.md` committed before any implementation and never edited (first commit of the repo) — `b82d0d8` is the root commit and the only commit touching PLAN.md
+- [x] `README.md`: how to run, interpretation, assumptions, what was deferred and why, what I would do with another day, how to run the tests, deviations from the plan, real time per block — first full version; the Sunday row of the time table is still pending
 - [ ] AI log in `ai-log/`: raw prompts and responses, where I rejected or corrected the agent, short reflection, one line on tools and models
-- [ ] `CLAUDE.md` for the repo (optional, adds)
+- [x] `CLAUDE.md` for the repo (optional, adds) — `383e344`
 
 ## Evaluation criteria (and the evidence that covers each)
 
-- [ ] Spec interpretation: the question the screen answers, written in `PLAN.md` §1 and shown as the verdict sentence in the UI
-- [ ] Planning before code: `PLAN.md` is the first commit; git log shows the order
-- [ ] Data judgment: seed findings in `PLAN.md` §2; duplicates handled in the `activity_events_deduped` view; spike kept and listed as an unusual baseline week
-- [ ] Choice of "normal" backed by evidence: back-test table in `PLAN.md` §5 (6 % vs 36 % / 51 % / 55 %)
-- [ ] Correct aggregates: integration tests pinned to numbers computed by independent hand-written SQL
-- [ ] Timezone correctness: DST unit tests (167 h Chicago, 168 h Phoenix)
-- [ ] Multi-location usefulness: locations ranked by deviation, out-of-range first
-- [ ] Actionable on Monday morning: default is the last complete week; every status shows what it is compared against
-- [ ] Code structure: thin endpoint → service → one query class + pure functions, DI throughout
-- [ ] State survives a reload: `account`, `type`, `week` in the URL; frontend test restores them
-- [ ] Edge states in the UI: loading, error, no activity, insufficient history
+- [x] Spec interpretation: the question the screen answers, written in `PLAN.md` §1 and shown as the verdict sentence in the UI (Q2: verdict with numbers and baseline)
+- [x] Planning before code: `PLAN.md` is the first commit; git log shows the order
+- [x] Data judgment: seed findings in `PLAN.md` §2; duplicates handled in the `activity_events_deduped` view; spike kept and listed as an unusual baseline week — plus the errata in the README where the plan's numbers were wrong
+- [x] Choice of "normal" backed by evidence: back-test table in `PLAN.md` §5 (6 % vs 36 % / 51 % / 55 %); remeasured by the app in local weeks: 6.2 % (README, errata 2)
+- [x] Correct aggregates: integration tests pinned to numbers computed by independent hand-written SQL — 3 cases, `db/verify/verify-aggregates.sql`; two deliberate breakages of the code each made them fail
+- [x] Timezone correctness: DST unit tests (167 h Chicago, 168 h Phoenix); integration cases in New York and Chicago
+- [x] Multi-location usefulness: locations ranked by deviation, out-of-range first — `OrderByAttention` service test; Q2 test that the view does not re-sort
+- [x] Actionable on Monday morning: default is the last complete week; every status shows what it is compared against — `week` and `baseline` in every response; verdict line in the view (Q2)
+- [x] Code structure: thin endpoint → service → one query class + pure functions, DI throughout
+- [x] State survives a reload: `account`, `type`, `week` in the URL; frontend test restores them (Q2)
+- [x] Edge states in the UI: loading, error, no activity, insufficient history (Q2 manual pass: account 20, week of Feb 2). "N weeks to go" is not shown yet; the API's `historyWeeks` is ready for it
 - [ ] AI-first workflow, honestly logged: `ai-log/notes-*.md`, exports, `AGENT_WORKFLOW.md`
-- [ ] Scope discipline: deferred items named in the README with the reason
+- [x] Scope discipline: deferred items named in the README with the reason
 
 ## Data checks
 
-- [ ] Duplicates: 12 exact duplicate rows ignored at read time; `dataNotes.duplicateRowsIgnored` matches per account; account 1 week 2026-07-06 Site C counts the 11266/11267 pair once
-- [ ] Timezones: weeks bucketed in each account's IANA zone; account 18 (`UTC`) and a Phoenix account (no DST) behave correctly
-- [ ] Zero weeks count as 0, not skipped (account 6 Site G and Site N, account 18 Site C)
-- [ ] Empty account: account 20 returns `no_data` and the UI shows "No activity recorded yet"
-- [ ] Spike: account 6 week 2026-06-01 is `above`; the following 8 weeks list it in `unusualBaselineWeeks` and their range does not move
-- [ ] NULL `outcome` / `duration_seconds` events are counted
-- [ ] Last complete week (2026-07-20) flags 12/Site F, 15/Site C, 19/Site A as `above`, none `below`
-- [ ] Per-type counts add up to the `all` count
-- [ ] "Now" pinned to 2026-07-27T14:00:00Z in Development and shown in the UI
+- [x] Duplicates: 12 exact duplicate rows ignored at read time (the view returns 12,614 of 12,626); `dataNotes.duplicateRowsIgnored` counts the duplicates dropped **inside the 9 weeks shown** (not the whole account), checked against the independent SQL in 3 cases (1, 3 and 1); account 1 week 2026-07-06 Site C counts the 11266/11267 pair once (4, raw table 5)
+- [x] Timezones: weeks bucketed in each account's IANA zone; account 18 (`UTC`) and a Phoenix account (no DST) behave correctly — account 7 (Phoenix) week of Mar 16 matches the independent SQL; account 18 by API and Q2 manual pass
+- [x] Zero weeks count as 0, not skipped (account 6 Site G and Site N, account 18 Site C) — via API: Site G Apr 13 and Jun 29, Site N Feb 23, 18/Site C Mar 23 come back with 0 and a status
+- [x] Empty account: account 20 returns `no_data` and the UI shows "No activity recorded yet" — integration test + Q2 manual pass
+- [x] Spike: account 6 week 2026-06-01 is `above`; the following 8 weeks list it in `unusualBaselineWeeks` and their range does not move — integration tests (Jun 1 and Jul 20) + unit test (a bigger spike gives the same range)
+- [x] NULL `outcome` / `duration_seconds` events are counted — the view's DISTINCT keeps them, and the independent SQL (which counts every row) matches
+- [x] Last complete week (2026-07-20) flags 12/Site F, 15/Site C, 19/Site A as `above`, none `below` — measured through the API over all 20 accounts
+- [x] Per-type counts add up to the `all` count — integration test
+- [x] "Now" pinned to 2026-07-27T14:00:00Z in Development and shown in the UI — `appsettings.Development.json`, `nowUtc` in the response, notice in the view (Q2)
 
 ## Security checks
 
-- [ ] API is GET only
-- [ ] All SQL parameterized (interpolated `SqlQuery<T>`, no concatenation), checked at the exact lines
-- [ ] Every activity query filtered by `account_id`
-- [ ] `eventType` validated against a whitelist
-- [ ] Errors are ProblemDetails with the right status (400 / 404 / 422), no stack traces
-- [ ] No open CORS; the Angular dev proxy is used instead
-- [ ] No `innerHTML` in the view
-- [ ] SA password is local-dev only, labeled, overridable by environment variable
-- [ ] README says that in production the account comes from the token, not the route
+- [x] API is GET only — only `MapGet` in `api/`
+- [x] All SQL parameterized (interpolated `SqlQuery<T>`, no concatenation), checked at the exact lines — `ActivityQueries.cs`
+- [x] Every activity query filtered by `account_id` — the 4 predicates of the aggregation and the LINQ lookup
+- [x] `eventType` validated against a whitelist — `BaselineEndpoint.ParseQuery` + tests
+- [ ] Errors are ProblemDetails with the right status (400 / 404 / 422), no stack traces — 400/404 checked with curl, 422 by unit test, `UseExceptionHandler` configured; an unexpected 500 has not been triggered for real yet
+- [x] No open CORS; the Angular dev proxy is used instead — no CORS in `api/`
+- [x] No `innerHTML` in the view — grep over `web/src`
+- [x] SA password is local-dev only, labeled, overridable by environment variable
+- [x] README says that in production the account comes from the token, not the route
 
 ## Before publishing
 
 - [ ] Review every export in `ai-log/` before it goes public (nothing private, nothing outside this exercise)
-- [ ] Clean clone runs with the README steps; tests green
+- [x] Clean clone runs with the README steps; tests green — 2026-10-03 22:03, commit `77b7460`, fresh database `SitePulse_CleanClone`: migrations + seed, `dotnet test` 54/54, `npm install` + `npm test` 27/27, `ng build` clean. Found and fixed: a `container_name` conflict when another copy runs on the same machine (README note). `npm start` not run from the clone (ports in use); Q2's manual pass covers the view
 - [ ] No starter `docs/` in the repo; repo name is my own
 - [ ] Create the public repo and push (done by me, not by an agent)
 - [ ] Reply to the prompt email with the repo link (draft first)
