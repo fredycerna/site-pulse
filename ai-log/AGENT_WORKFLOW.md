@@ -10,7 +10,7 @@ A light planner / executor split. One planning session decides; a few execution 
 | **Planning session** (one, larger model) | Reads the ticket and starter, profiles the seed data, back-tests candidate rules, asks me the product questions, writes the day plan with one closed task list per terminal | Write feature code |
 | **Execution terminals** (one per theme) | Run their list top to bottom, self-review before each commit, log redirections as they happen | Re-decide priorities, touch another terminal's files, do anything public |
 
-Terminals used: **docs** (PLAN.md, agent context, checklist, planning record), **backend** (schema, seed, aggregation, tests), **frontend** (the Angular view).
+Terminals used: **docs** (PLAN.md, agent context, checklist, planning record), **backend** (schema, seed, aggregation, tests), **frontend** (the Angular view), **end-to-end** (the browser pass over the running app and the fixes it led to, owning the whole repo except `PLAN.md`), **publishing** (README polish, the AI log index and reflection, a clean-clone run, the final checklist; nothing public).
 
 Models, all in Claude Code:
 
@@ -20,6 +20,8 @@ Models, all in Claude Code:
 | Docs terminal | Claude Opus 5.5 |
 | Backend terminal | Claude Opus 5.5 |
 | Frontend terminal | Claude Opus 5.5 |
+| End-to-end terminal | Claude Opus 5.5, driving Chromium through the Playwright MCP tools |
+| Publishing terminal | Claude Opus 5.5 |
 
 ## The loop
 
@@ -28,7 +30,8 @@ Models, all in Claude Code:
 3. **Closed lists.** Each terminal gets: tasks in order, the decisions already made, the files it owns, what is out of scope, a cut line if time runs out, and the commit message for each step.
 4. **Run without stops.** A terminal works its list end to end. It asks me only for product questions; it escalates back to planning only if the real code or data contradicts the plan in a way that changes scope, architecture or data safety.
 5. **Self-review before each commit.** Whole diff reread, new tests proven to fail without the change, edge cases enumerated, SQL scoping and parameterization checked.
-6. **Plan first in git.** `PLAN.md` is the first commit and is never edited. Deviations go to the README.
+6. **Validate, then fix.** When a terminal hands off, the planning session checks its work on its own (for example, re-measuring the end-to-end fixes against the API) and decides what is fixed, deferred or left as is; I confirm. Findings that touch the contract or the rule go back to planning before any code changes.
+7. **Plan first in git.** `PLAN.md` is the first commit and is never edited. Deviations go to the README.
 
 ## Guardrails every terminal carries
 
