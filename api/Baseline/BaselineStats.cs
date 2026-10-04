@@ -1,0 +1,64 @@
+namespace SitePulse.Api.Baseline;
+
+public enum BaselineStatus { Below, Typical, Above, InsufficientHistory, NoData }
+
+/// <param name="Median">Center of the baseline; null without enough history.</param>
+/// <param name="TypicalLow">Lowest whole count that is typical (inclusive).</param>
+/// <param name="TypicalHigh">Highest whole count that is typical (inclusive).</param>
+/// <param name="Deviation">(current − median) / σ, with σ floored at 1; signed; 0 without enough history.</param>
+/// <param name="UnusualBaselineIndices">Positions in the baseline whose count lies outside the range.</param>
+public sealed record BaselineResult(
+    BaselineStatus Status,
+    double? Median,
+    int? TypicalLow,
+    int? TypicalHigh,
+    double Deviation,
+    IReadOnlyList<int> UnusualBaselineIndices);
+
+/// <summary>
+/// "Normal" for one series (PLAN.md §5): median ± 2σ with σ = max(1.4826·MAD, √median).
+/// Median and MAD ignore how large an outlier is; the √median floor is the noise expected
+/// from a small count, so a flat series does not get a zero-width range.
+/// </summary>
+public static class BaselineStats
+{
+    public const int MinimumHistoryWeeks = 4;
+    private const double MadToSigma = 1.4826;
+    private const double BandWidthInSigmas = 2;
+
+    public static double Median(IReadOnlyList<double> values)
+    {
+        if (values.Count == 0) throw new ArgumentException("Median of an empty series.", nameof(values));
+        var sorted = values.Order().ToArray();
+        var mid = sorted.Length / 2;
+        return sorted.Length % 2 == 1 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+    }
+
+    /// <param name="baseline">Counts of the baseline weeks with history only (weeks before the first event are left out).</param>
+    public static BaselineResult Evaluate(IReadOnlyList<int> baseline, int current)
+    {
+        if (baseline.Count < MinimumHistoryWeeks)
+            return new BaselineResult(BaselineStatus.InsufficientHistory, null, null, null, 0, []);
+
+        var values = baseline.Select(c => (double)c).ToArray();
+        var median = Median(values);
+        var mad = Median(values.Select(v => Math.Abs(v - median)).ToArray());
+        var sigma = Math.Max(MadToSigma * mad, Math.Sqrt(median));
+        var low = median - BandWidthInSigmas * sigma;
+        var high = median + BandWidthInSigmas * sigma;
+
+        // Counts are whole numbers, so ceil/floor of the band holds exactly the counts the band calls typical.
+        var typicalLow = Math.Max(0, (int)Math.Ceiling(low));
+        var typicalHigh = (int)Math.Floor(high);
+
+        var unusual = Enumerable.Range(0, baseline.Count)
+            .Where(i => Classify(baseline[i], low, high) != BaselineStatus.Typical)
+            .ToList();
+
+        return new BaselineResult(Classify(current, low, high), median, typicalLow, typicalHigh,
+            (current - median) / Math.Max(sigma, 1), unusual);
+    }
+
+    private static BaselineStatus Classify(int count, double low, double high) =>
+        count < low ? BaselineStatus.Below : count > high ? BaselineStatus.Above : BaselineStatus.Typical;
+}
