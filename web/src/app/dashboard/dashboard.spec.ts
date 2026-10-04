@@ -1,3 +1,4 @@
+import { ApplicationRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
@@ -268,6 +269,38 @@ describe('Dashboard', () => {
     expect(el.querySelector('.empty')?.textContent).toContain('No activity recorded yet');
     expect(el.querySelector('h1')).toBeNull();
     expect(el.querySelectorAll('.mcard, button.row')).toHaveLength(0);
+  });
+
+  describe('explains data conditions instead of hiding them (M18)', () => {
+    it('says how much history a location without a range has', async () => {
+      const el = await render(structuredClone(shortHistory) as ActivityBaseline);
+
+      Array.from(el.querySelectorAll<HTMLButtonElement>('button.row')).find(r => r.querySelector('.loc-name')?.textContent?.trim() === 'Site A')!.click();
+      await TestBed.inject(ApplicationRef).whenStable();
+
+      expect(el.querySelector('.detail .why')?.textContent?.replace(/\s+/g, ' ').trim()).toContain(
+        'Site A has 3 of the 4 full weeks of history it needs for a normal range.'
+      );
+    });
+
+    it('says that a week with no activity counts as zero', async () => {
+      const el = await render();
+
+      const rules = Array.from(el.querySelectorAll('.two .card:first-child li')).map(li => li.textContent?.replace(/\s+/g, ' ').trim());
+      expect(rules.some(r => r?.includes('A week with no activity counts as 0.'))).toBe(true);
+    });
+
+    it('does not present a failed load as an account without data', async () => {
+      const fixture = TestBed.createComponent(Dashboard);
+      http.expectOne('/api/accounts').flush(ACCOUNTS);
+      await fixture.whenStable();
+      http.expectOne(r => r.url.endsWith('/activity-baseline')).flush(null, { status: 500, statusText: 'Server Error' });
+      await fixture.whenStable();
+      const el = fixture.nativeElement as HTMLElement;
+
+      expect(el.querySelector('[role="alert"]')?.textContent).toContain('We could not load this view.');
+      expect(el.querySelector('.empty')).toBeNull();
+    });
   });
 
   it('says the normal range is never narrower than two events', async () => {
