@@ -21,7 +21,7 @@ cd web && npm install && npm start   # Angular on http://localhost:4200, proxies
 
 `dotnet run --project api -- seed` applies the migrations, loads `db/seed/seed.sql` if the database is empty, and exits.
 
-The compose file names its container `site-pulse-sql`. If a container with that name already exists (for example, another copy of this repository on the same machine), `docker compose up -d` fails with a name conflict. Reuse the running server and point this copy at its own database, so migrations and the seed run from scratch:
+The compose file names its container `site-pulse-sql`. If a container with that name already exists (for example, another copy of this repository on the same machine), `docker compose up -d` fails with a name conflict (or, if the copy sits in a folder with the same name, silently reuses that container and its `SitePulse` database). Reuse the running server and point this copy at its own database, so migrations and the seed run from scratch:
 
 ```bash
 export ConnectionStrings__SitePulse='Server=localhost,1433;Database=SitePulse_Copy;User Id=sa;Password=SitePulse_Dev_Only_2026!;TrustServerCertificate=True;Encrypt=True'
