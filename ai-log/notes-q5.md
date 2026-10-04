@@ -51,3 +51,9 @@ Checked against the sources before writing: the planning record matches points 8
 1. The two risks planning flagged (`historyWeeks` from the same computation; the frontend's series not being evidence) are not mistakes: they were caught before they happened. Moved from "Where we were wrong" to "What worked", as evidence that the validation loop worked.
 2. My error in the F2 sentence: the unit test pinned the behavior (a 0–0 range), not the 199; and 199 are seed rows counted across event types, not location-weeks. Now: "199 rows in the seed, and a unit test had pinned that behavior on purpose".
 - Removed the "Draft" marker. Committing task 3.
+
+## 23:19 — Task 4, README read against the final state
+
+- Spot-checked deviations against the code: `nuget.config`, `site-pulse.sln`, `RollForward=Major` in both projects, Angular CLI ^21, `db/verify/verify-aggregates.sql`, σ floor in `BaselineStats.cs:53`, `inBaseline`, `unusualBaselineWeeks` on locations, the "first complete week" 400. All agree. "With another day": none of the four items is done (no `WebApplicationFactory`, no CI folder, F10 open, no quality metrics).
+- Changes: test counts (60, 41) on the Tests line; first person in the time table and its paragraph; Deviation 5 attributes the `historyWeeks` condition to the planning session, approved by Fredy (his attribution correction at 23:12); the "Sunday" row becomes block D (closing time filled in task 7); link to `ai-log/README.md` in the AI log section; the two trade-offs Fredy asked for. Screenshot `ai-log/e2e/default-view.png` exists (PNG 1280×1023).
+- Left as is: errata 3 still says "Sunday at 0.5 h"; it describes the plan's budget, not what happened.

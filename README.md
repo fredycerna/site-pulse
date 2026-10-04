@@ -38,7 +38,7 @@ Configuration:
 | `Dashboard__NowOverrideUtc` (API) | `2026-07-27T14:00:00Z` in Development | Pins "now" to the seed snapshot; see "Pinned clock". |
 | `SITEPULSE_TEST_CONNECTION` (tests) | the compose database | Integration tests read the seeded database. |
 
-**Tests**: `dotnet test` from the repository root (needs the database up and seeded), and `cd web && npm test`.
+**Tests**: `dotnet test` from the repository root (needs the database up and seeded; 60 tests), and `cd web && npm test` (41 tests).
 
 ## What I built
 
@@ -81,6 +81,8 @@ For each series (a location, or the account as a whole): median ± 2σ with σ =
 - **Duplicates handled at read time.** The 12 double-ingested rows stay in the table as delivered. The view `activity_events_deduped` (`SELECT DISTINCT` over every column but `id`) is the one place the rule lives. The response reports how many were dropped from the weeks shown.
 - **Pinned clock.** The seed ends on Mon 2026-07-27; with the real clock every week would be empty. `TimeProvider` is injected, and Development pins it to 2026-07-27 14:00 UTC. The UI says so.
 - **State in the URL.** `account`, `type` and `week` query params are the only source of truth for filters: reload-safe, shareable, no state library. An invalid value (`account=999`, `type=foo`, `week=xyz`) falls back to the default and the URL is rewritten in place (`replaceUrl`) to what is actually shown, so the address bar never names an account or filter the page is not showing. There is no on-screen notice for it; that was a deliberate scope call after the end-to-end pass (F5).
+- **Integration tests against the seeded database, bounded in cost.** I doubted them: they usually take a lot of back-and-forth, and that level is often left to end-to-end suites. They stayed because the aggregation lives in SQL, which no unit test touches; with no Testcontainers, no running API (the tests call the service, and the API is read-only) and a 30-minute cap, they were green in about 2 minutes.
+- **One visual view, detail on request.** The screen answers "was the week normal?" at a glance and opens a location's 9-week history only when asked (the first one opens by itself when it is out of range), instead of showing a table of numbers up front. Every status names its baseline. Charts are hand-written SVG: two small charts did not justify a chart library.
 - **No cache.** Measured: 20 requests for the largest account (15 locations) take a median of 19 ms end to end, with a max of 35 ms. At scale, closed weeks never change, so the move would be caching per (account, week, type) or a weekly summary materialized per account-local week. Today that would be complexity with no measurable gain.
 
 ## Verifying the numbers
@@ -113,7 +115,7 @@ Authentication is out of scope per the prompt, so the account id comes from the 
 2. **Angular CLI 21 instead of 22.** CLI 22 requires Node ≥ 22.22.3 and the machine has 22.18. The plan allowed this fallback.
 3. **The `web/` lockfile was generated with npm 11.** Without a lockfile, npm 10.9 fails with an internal error ("edgesOut") while resolving peer dependencies; with the lockfile, `npm install` on npm 10.9 works.
 4. **`site-pulse.sln` at the root** so `dotnet test` runs from there.
-5. **`historyWeeks` added to the contract** (in `metrics[]` and `locations[]`). It was a gap in PLAN.md's contract, found by the frontend terminal: "No baseline yet… N weeks to go" had no field, and deriving it from `availableWeeks` gave a wrong number (that list started on the partial week of the first event; see item 10). Fredy approved it on one condition: the number comes from the same computation that decides `insufficient_history`, so the two cannot disagree.
+5. **`historyWeeks` added to the contract** (in `metrics[]` and `locations[]`). It was a gap in PLAN.md's contract, found by the frontend terminal: "No baseline yet… N weeks to go" had no field, and deriving it from `availableWeeks` gave a wrong number (that list started on the partial week of the first event; see item 10). I approved it on one condition, proposed by the planning session: the number comes from the same computation that decides `insufficient_history`, so the two cannot disagree.
 6. **Nullable `median`, `typicalLow` and `typicalHigh`.** The plan did not say what they hold when there is no range; they are `null` for `insufficient_history` and `no_data`.
 7. **`duplicateRowsIgnored` counts the 9 weeks shown**, not the whole account. The plan did not pin the scope; the view words it as "excluded from the weeks shown".
 8. **`db/verify/verify-aggregates.sql`** was added so the independent check can be repeated.
@@ -159,11 +161,11 @@ Authentication is out of scope per the prompt, so the account id comes from the 
 | Evening, backend terminal | ~21:40 – 22:03 | Q1 notes start 21:43; commits `c3dd3e1` 21:46 … the README and checklist commit at 22:03 | 23 min |
 | Evening, frontend terminal (in parallel) | ~21:40 – 21:55 | Q2 notes start 21:44; commits `441b163` 21:46 … `5cc1204` 21:54 | 15 min |
 | Block C: end-to-end pass, fixes, second pass, final fixes (one terminal) | 22:12 – 22:47 | Q4 notes start 22:12; report `249f4dd`; fixes `fad1ced` … `16fc5a1`; this README update at 22:47 | 35 min |
-| Sunday: README polish, AI log, publish | pending | | |
-| **Fredy's wall-clock time** (the effort measure) | 12:20 – 13:46 and 21:40 – 22:47 | his own clock; the terminal rows above ran in parallel inside these two windows and are not added to it | 86 + 67 = 153 min (2 h 33 min) |
+| Block D: README polish, AI log index and reflection, clean clone, final checklist (one terminal) | 22:57 – pending | Q5 notes start 22:57 | pending |
+| **My wall-clock time** (the effort measure) | 12:20 – 13:46 and 21:40 – 22:47 | my own clock; the terminal rows above ran in parallel inside these two windows and are not added to it | 86 + 67 = 153 min (2 h 33 min) |
 
-The rows per terminal count how long each agent session ran, not the effort: the terminals worked in parallel inside Fredy's time, and his time also covers reading, deciding and reviewing between them. The effort to date is his wall-clock time, 2 h 33 min (Saturday 12:20 – 13:46 and 21:40 – 22:47), against the 6 h cap; Sunday's polish comes on top. The time not needed for features went into verification, the clean-clone test and the end-to-end pass.
+The rows per terminal count how long each agent session ran, not the effort: the terminals worked in parallel inside my time, and my time also covers reading, deciding and reviewing between them. The effort to date is my wall-clock time, 2 h 33 min (Saturday 12:20 – 13:46 and 21:40 – 22:47), against the 6 h cap. The time not needed for features went into verification, the clean-clone test and the end-to-end pass.
 
 ## AI log
 
-`ai-log/` holds the raw record: `00-planning-record.md` (the planning session), `notes-q*.md` (each terminal's notes, written as things happened, including every correction from me and every mistake a test or cross-check caught), the session exports, and `AGENT_WORKFLOW.md` (how the terminals were split and which models ran them).
+Start at [`ai-log/README.md`](ai-log/README.md): the reading order, the tools and models, what was cleaned before publishing, and a short reflection. `ai-log/` holds the raw record: `00-planning-record.md` (the planning session), `notes-q*.md` (each terminal's notes, written as things happened, including every correction from me and every mistake a test or cross-check caught), the session exports, and `AGENT_WORKFLOW.md` (how the terminals were split and which models ran them).
