@@ -9,7 +9,7 @@ Living list. A box is ticked only when it was verified for real, with the eviden
 - [x] Seed loaded as-is (`db/seed/` byte-identical to the starter, checked with `shasum`) — block A, Q1 hand-off
 - [x] Endpoint with a real aggregation — `ActivityQueries.GetWeeklyActivityAsync`, one parameterized SQL query
 - [x] Angular view with an input whose state survives a reload — Q2: URL params, frontend test, manual reload in Chrome
-- [x] Tests that run (one line in the README on how) — `dotnet test` 54/54, `npm test` 29/29 on the current tree (Q2)
+- [x] Tests that run (one line in the README on how) — `dotnet test` 59/59, `npm test` 40/40 after the end-to-end fixes (Q4, 2026-10-03); 54/54 and 29/29 before them (Q2)
 - [x] `PLAN.md` committed before any implementation and never edited (first commit of the repo) — `b82d0d8` is the root commit and the only commit touching PLAN.md
 - [x] `README.md`: how to run, interpretation, assumptions, what was deferred and why, what I would do with another day, how to run the tests, deviations from the plan, real time per block — first full version; the Sunday row of the time table is still pending
 - [ ] AI log in `ai-log/`: raw prompts and responses, where I rejected or corrected the agent, short reflection, one line on tools and models
@@ -28,6 +28,7 @@ Living list. A box is ticked only when it was verified for real, with the eviden
 - [x] Code structure: thin endpoint → service → one query class + pure functions, DI throughout
 - [x] State survives a reload: `account`, `type`, `week` in the URL; frontend test restores them (Q2)
 - [x] Edge states in the UI: loading, error, no activity, insufficient history (Q2 manual pass: account 20, week of Feb 2); "N weeks to go" from the API's `historyWeeks` (Q2 `f2c0d8b`)
+- [x] End-to-end pass in a real browser, view diffed against the API and the API against hand SQL; findings fixed with failing-first tests; second pass clean except F11 (exceptional weeks per location, needs a contract change) — `ai-log/e2e-report.md` (Q4)
 - [ ] AI-first workflow, honestly logged: `ai-log/notes-*.md`, exports, `AGENT_WORKFLOW.md`
 - [x] Scope discipline: deferred items named in the README with the reason
 

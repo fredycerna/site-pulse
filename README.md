@@ -61,6 +61,7 @@ Layers, as planned: thin endpoint (`BaselineEndpoint`) → `BaselineService` (or
 - **For us** = each location against **its own** previous 8 complete weeks, not against other locations or accounts.
 - **Act on it** = rank by how far outside the range a location is, and always show what it was compared against.
 - **Metric** = weekly event volume, filterable by type. Quality (missed-call rate, no-shows) is a different question and is deferred.
+- **The screen explains its own gaps.** When data is missing, thin or odd (no events yet, too little history, a zero week, a spike, duplicates, the week still in progress), nothing is changed or hidden: the page says what it is not showing and why, from what the API sends, so a partial picture is not mistaken for a broken system.
 
 ## What "normal" means
 
@@ -97,6 +98,10 @@ Three cases were checked cell by cell and pinned in `api.tests/Integration/Aggre
 Both ways of breaking the code were tried on purpose: counting from the raw table instead of the view, and bucketing weeks in UTC instead of the account's zone. Each made these tests fail.
 
 Also covered: account 20 (no events) → `no_data` on all four metrics and no locations; account 999 → not found; per-type location counts add up to the total; an early week (account 6, Feb 16) reports `historyWeeks` that were computed by hand.
+
+**End-to-end pass.** On the evening of 2026-10-03 the whole app (dev server, API, seeded database) was tested in a real browser, 18 cases, each screen diffed field by field against the API response for the same URL, and the API checked again against `verify-aggregates.sql` (accounts 12, 4 in its DST week, 7 and 18). The first pass found 10 issues; the planning session decided which to fix; each fix went in with a test that failed first, and a second pass of the full matrix came out clean, with one data condition left for later (exceptional weeks per location). Cases, findings, classification, before/after screenshots: [`ai-log/e2e-report.md`](ai-log/e2e-report.md).
+
+![Default view](ai-log/e2e/default-view.png)
 
 ## Security, sized to the slice
 
@@ -140,7 +145,8 @@ Authentication is out of scope per the prompt, so the account id comes from the 
 ## With another day
 
 - An HTTP-level test layer (`WebApplicationFactory` over the seeded database) so status codes and JSON shape are pinned in CI, not just checked with curl.
-- A `historyWeeks`-style explanation for `unusualBaselineWeeks` in the location detail, not only at account level.
+- Keep the layout still while a week loads (the week picker and clock disappear and come back), and keep a bar's value label clear of the median line in the detail chart (end-to-end notes F10).
+- `unusualBaselineWeeks` per location, so the location detail explains a spike in its own chart as the account view does (end-to-end finding F11; a contract change).
 - Quality metrics as a second tab, starting with missed-call rate, with a minimum-volume rule before any status is shown.
 - Run the integration tests in CI against the compose database, and add a seeded-database health check to `docker compose`.
 
@@ -152,6 +158,7 @@ Authentication is out of scope per the prompt, so the account id comes from the 
 | Walking skeleton (backend terminal) and docs (docs terminal), in parallel | 13:20 – 13:38 | Q1 notes start 13:22; Q3 notes start 13:26; first commit `b82d0d8` 13:32; last commit `6a1e682` 13:38 | 18 min |
 | Evening, backend terminal | ~21:40 – 22:03 | Q1 notes start 21:43; commits `c3dd3e1` 21:46 … the README and checklist commit at 22:03 | 23 min |
 | Evening, frontend terminal (in parallel) | ~21:40 – 21:55 | Q2 notes start 21:44; commits `441b163` 21:46 … `5cc1204` 21:54 | 15 min |
+| Block C: end-to-end pass, fixes, second pass (one terminal) | 22:12 – 22:40 | Q4 notes start 22:12; report `249f4dd`; fixes `fad1ced` … `21cd217`; this README update at 22:40 | 28 min |
 | Sunday: README polish, AI log, publish | pending | | |
 
 The evening block came in well under its 4 h budget (about 25 minutes per terminal, in parallel). The time saved went into verification and the clean-clone test, not features.
