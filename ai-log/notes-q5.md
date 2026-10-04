@@ -73,3 +73,9 @@ Checked against the sources before writing: the planning record matches points 8
 - `git ls-files`: no `bin/`, `obj/`, `node_modules/`, `dist/`, `.angular/` or `docs/`. No absolute local paths (`/Users/`, `/home/`, `/private/tmp`) outside the exports 01–05. No `.env`, keys or certificates. The only password, `SitePulse_Dev_Only_2026!`, appears in `docker-compose.yml`, `appsettings.Development.json`, the README and the test helper's default connection, each marked local-dev or overridable.
 - `.gitignore` did not cover `.playwright-mcp/` (my task 5 run had just created it in the repo root). Added; the folder deleted.
 - CHECKLIST: ticked the AI log, AI-first workflow, export review (said to be the planning session's, 22:58), and "no starter docs/"; test counts and clean clone updated with today's run. Left unticked: public repo (line 7), create and push, reply to the email.
+
+## 23:22 — Task 7, close
+
+- Time table: block D 22:57 – 23:22 (25 min); Fredy's wall-clock second window extended to 23:22: 86 + 102 = 188 min (3 h 8 min) against the 6 h cap. The end time is this terminal's close by `date`; if Fredy keeps working after it (`/export`, the planning export), he adjusts it.
+- Final state: `dotnet test` 60/60 and `npm test` 41/41 (clean clone), API and dev server stopped, `site-pulse-sql` left running, nothing public done.
+- Reminder for Fredy: run `/export ai-log/06-q5-publish.md`.
