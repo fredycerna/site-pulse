@@ -15,3 +15,8 @@ Also the agent's own mistakes when a test or a cross-check caught them.
 - 13:32 — Angular CLI 22.2.1 requires Node ^22.22.3; this machine has 22.18. Used `@angular/cli@21` as the plan says. `ng new` then failed inside `npm install` with an npm 10.9 internal error ("Cannot read properties of null (reading 'edgesOut')") while resolving vitest's peer deps. Installed once with npm 11 to produce the lockfile; with the lockfile, plain `npm install` on npm 10.9 works. Recorded for the README.
 - 13:33 — Shell verified: `ng test` 2/2 green (lists accounts from `/api/accounts`, shows an error on failure), `ng build` clean, and the browser at :4200 lists the 20 real accounts through the dev proxy (no CORS on the API).
 - 13:34 — PLAN.md commit `b82d0d8` found; committed tasks 4, 5 and 6 with explicit paths only.
+
+## 2026-10-03 — Block B (evening)
+
+- 21:43 — Session start (Opus 5.5). Read the block A hand-off and the repo: head `6a1e682`, block A complete, so task 1 of block B does not apply. Docker Desktop was off; started it and `docker compose up -d`.
+- 21:45 — Reading of "fewer than 4 complete weeks since its first event" (PLAN §5): a baseline week counts as history only if it starts at or after the location's first event. The partial week that contains the first event is left out, so a half week does not pull the median down. The same rule applies at account level.
