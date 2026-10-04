@@ -4,7 +4,7 @@ Living list. A box is ticked only when it was verified for real, with the eviden
 
 ## Deliverables from the prompt
 
-- [ ] Public repo of my own (not a fork, distinct name, no starter `docs/`) with backend, frontend and migrations
+- [x] Public repo of my own (not a fork, distinct name, no starter `docs/`) with backend, frontend and migrations — https://github.com/fredycerna/site-pulse, public, `isFork: false`
 - [x] Migrations with the stack's standard tool (EF Core), not hand-run DDL — `InitialSchema` + `AddDedupedEventsView`
 - [x] Seed loaded as-is (`db/seed/` byte-identical to the starter, checked with `shasum`) — block A, Q1 hand-off
 - [x] Endpoint with a real aggregation — `ActivityQueries.GetWeeklyActivityAsync`, one parameterized SQL query
@@ -61,5 +61,5 @@ Living list. A box is ticked only when it was verified for real, with the eviden
 - [x] Review every export in `ai-log/` before it goes public (nothing private, nothing outside this exercise) — done by the planning session at 22:58, not by a terminal (a terminal that read them would copy them into its own export); what was changed is listed in `ai-log/README.md`
 - [x] Clean clone runs with the README steps; tests green — 2026-10-03 22:03, commit `77b7460`, fresh database `SitePulse_CleanClone`: migrations + seed, `dotnet test` 54/54, `npm install` + `npm test` 27/27, `ng build` clean. Found and fixed: a `container_name` conflict when another copy runs on the same machine (README note). `npm start` not run from the clone (ports in use); Q2's manual pass covers the view. Repeated end to end on 2026-10-03 23:19 (Q5) at `74854fd`, fresh database `SitePulse_Q5Clone`: migrations + seed, `dotnet build` 0 warnings, `dotnet test` 60/60, `npm install` + `npm test` 41/41, API and `npm start` from the clone, page checked in Playwright (default view; account 6, week of 2026-06-01, equal to the API; console clean). Found and fixed: a clone in a folder with the same name silently reuses the running container (README note)
 - [x] No starter `docs/` in the repo; repo name is my own — `git ls-files` has no `docs/`, `bin/`, `obj/`, `node_modules/` or `dist/`; no absolute local paths outside the exports; the only password is the labeled local-dev SA default; `.playwright-mcp/` ignored; name `site-pulse`
-- [ ] Create the public repo and push (done by me, not by an agent)
+- [x] Create the public repo and push (done by me, not by an agent) — pushed 2026-10-03 23:32, remote `main` equals local
 - [ ] Reply to the prompt email with the repo link (draft first)
