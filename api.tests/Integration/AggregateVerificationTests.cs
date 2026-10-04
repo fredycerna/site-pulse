@@ -126,6 +126,30 @@ public class AggregateVerificationTests
     }
 
     [Fact]
+    public async Task Early_week_reports_the_history_weeks_that_decided_insufficient_history()
+    {
+        // By hand in sqlcmd: first event per location in New York time, against the baseline Mondays
+        // Dec 22 .. Feb 9. Only Mondays at or after the first event count (the first, partial week does not).
+        // Account: first event Sun Feb 1 07:06 (Site D) → Feb 2 and Feb 9 → 2.
+        var r = await Found(6, new DateOnly(2026, 2, 16));
+
+        Assert.All(r.Metrics, m =>
+        {
+            Assert.Equal(2, m.HistoryWeeks);
+            Assert.Equal(BaselineStatus.InsufficientHistory, m.Status);
+        });
+        Assert.Equal(
+            new Dictionary<string, int>
+            {
+                ["Site A"] = 1, ["Site B"] = 1, ["Site C"] = 2, ["Site D"] = 2, ["Site E"] = 1,
+                ["Site F"] = 1, ["Site G"] = 1, ["Site H"] = 1, ["Site I"] = 1, ["Site J"] = 2,
+                ["Site K"] = 1, ["Site L"] = 1, ["Site M"] = 1, ["Site N"] = 1, ["Site O"] = 1,
+            },
+            r.Locations.ToDictionary(l => l.Location, l => l.HistoryWeeks));
+        Assert.All(r.Locations, l => Assert.Equal(BaselineStatus.InsufficientHistory, l.Status));
+    }
+
+    [Fact]
     public async Task Account_without_events_is_no_data()
     {
         var r = Assert.IsType<BaselineOutcome.Found>(await Get(20)).Response;

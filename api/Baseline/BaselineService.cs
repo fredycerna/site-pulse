@@ -82,17 +82,17 @@ public sealed class BaselineService(IActivityQueries queries, TimeProvider clock
         var (r, indices) = Judge(series, firstEventUtc, windows);
         var unusual = r.UnusualBaselineIndices.Select(i => indices[i])
             .Select(i => new WeekCount(windows[i].WeekStart, series[i])).ToList();
-        return new MetricBaseline(eventType, series[^1], r.Median, r.TypicalLow, r.TypicalHigh, r.Status,
+        return new MetricBaseline(eventType, series[^1], r.Median, r.TypicalLow, r.TypicalHigh, r.Status, r.HistoryWeeks,
             History(series, windows), unusual);
     }
 
     private static MetricBaseline NoDataMetric(string eventType, IReadOnlyList<WeekWindow> windows) =>
-        new(eventType, 0, null, null, null, BaselineStatus.NoData, History(new int[windows.Count], windows), []);
+        new(eventType, 0, null, null, null, BaselineStatus.NoData, 0, History(new int[windows.Count], windows), []);
 
     private static LocationBaseline Location(string name, int[] series, DateTime firstEventUtc, IReadOnlyList<WeekWindow> windows)
     {
         var (r, _) = Judge(series, firstEventUtc, windows);
-        return new LocationBaseline(name, series[^1], r.Median, r.TypicalLow, r.TypicalHigh, r.Status,
+        return new LocationBaseline(name, series[^1], r.Median, r.TypicalLow, r.TypicalHigh, r.Status, r.HistoryWeeks,
             Math.Round(r.Deviation, 2), History(series, windows));
     }
 

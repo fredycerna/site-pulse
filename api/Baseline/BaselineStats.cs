@@ -7,8 +7,10 @@ public enum BaselineStatus { Below, Typical, Above, InsufficientHistory, NoData 
 /// <param name="TypicalHigh">Highest whole count that is typical (inclusive).</param>
 /// <param name="Deviation">(current − median) / σ, with σ floored at 1; signed; 0 without enough history.</param>
 /// <param name="UnusualBaselineIndices">Positions in the baseline whose count lies outside the range.</param>
+/// <param name="HistoryWeeks">Baseline weeks that counted as history; the same number that decides InsufficientHistory.</param>
 public sealed record BaselineResult(
     BaselineStatus Status,
+    int HistoryWeeks,
     double? Median,
     int? TypicalLow,
     int? TypicalHigh,
@@ -37,8 +39,10 @@ public static class BaselineStats
     /// <param name="baseline">Counts of the baseline weeks with history only (weeks before the first event are left out).</param>
     public static BaselineResult Evaluate(IReadOnlyList<int> baseline, int current)
     {
-        if (baseline.Count < MinimumHistoryWeeks)
-            return new BaselineResult(BaselineStatus.InsufficientHistory, null, null, null, 0, []);
+        // One number decides insufficient history and is reported as HistoryWeeks, so the two cannot disagree.
+        var historyWeeks = baseline.Count;
+        if (historyWeeks < MinimumHistoryWeeks)
+            return new BaselineResult(BaselineStatus.InsufficientHistory, historyWeeks, null, null, null, 0, []);
 
         var values = baseline.Select(c => (double)c).ToArray();
         var median = Median(values);
@@ -55,7 +59,7 @@ public static class BaselineStats
             .Where(i => Classify(baseline[i], low, high) != BaselineStatus.Typical)
             .ToList();
 
-        return new BaselineResult(Classify(current, low, high), median, typicalLow, typicalHigh,
+        return new BaselineResult(Classify(current, low, high), historyWeeks, median, typicalLow, typicalHigh,
             (current - median) / Math.Max(sigma, 1), unusual);
     }
 

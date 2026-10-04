@@ -98,6 +98,8 @@ public class BaselineStatsTests
         var four = BaselineStats.Evaluate([10, 12, 11, 10], current: 50);
 
         Assert.Equal(BaselineStatus.InsufficientHistory, three.Status);
+        Assert.Equal(3, three.HistoryWeeks);
+        Assert.Equal(4, four.HistoryWeeks);
         Assert.Null(three.Median);
         Assert.Null(three.TypicalLow);
         Assert.Null(three.TypicalHigh);

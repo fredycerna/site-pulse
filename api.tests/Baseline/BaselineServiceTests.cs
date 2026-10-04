@@ -77,6 +77,7 @@ public class BaselineServiceTests
         Assert.All(r.Metrics, m =>
         {
             Assert.Equal(BaselineStatus.NoData, m.Status);
+            Assert.Equal(0, m.HistoryWeeks);
             Assert.Null(m.Median);
             Assert.Equal(9, m.History.Count);
         });
@@ -107,9 +108,12 @@ public class BaselineServiceTests
 
         var r = await Found(new([young, fourWeeks], 0));
 
-        Assert.Equal(BaselineStatus.InsufficientHistory, r.Locations.Single(l => l.Location == "Young").Status);
+        var youngRow = r.Locations.Single(l => l.Location == "Young");
+        Assert.Equal(BaselineStatus.InsufficientHistory, youngRow.Status);
+        Assert.Equal(2, youngRow.HistoryWeeks);
         var evaluated = r.Locations.Single(l => l.Location == "Four weeks");
         Assert.Equal(BaselineStatus.Typical, evaluated.Status);
+        Assert.Equal(4, evaluated.HistoryWeeks);
         Assert.Equal(10, evaluated.Median); // zeros in weeks 0..3 were left out
     }
 

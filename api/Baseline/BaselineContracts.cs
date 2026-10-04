@@ -27,7 +27,10 @@ public sealed record BaselineRange(DateOnly Start, DateOnly End, int Weeks);
 
 public sealed record WeekCount(DateOnly WeekStart, int Count);
 
-/// <summary>Median and limits are null when Status is insufficient_history or no_data.</summary>
+/// <summary>
+/// Median and limits are null when Status is insufficient_history or no_data. HistoryWeeks (0–8) is how many
+/// baseline weeks counted as history; fewer than 4 is insufficient_history.
+/// </summary>
 public sealed record MetricBaseline(
     string EventType,
     int Current,
@@ -35,6 +38,7 @@ public sealed record MetricBaseline(
     int? TypicalLow,
     int? TypicalHigh,
     BaselineStatus Status,
+    int HistoryWeeks,
     IReadOnlyList<WeekCount> History,
     IReadOnlyList<WeekCount> UnusualBaselineWeeks);
 
@@ -45,6 +49,7 @@ public sealed record LocationBaseline(
     int? TypicalLow,
     int? TypicalHigh,
     BaselineStatus Status,
+    int HistoryWeeks,
     double Deviation,
     IReadOnlyList<WeekCount> History);
 
