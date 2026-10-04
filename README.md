@@ -123,6 +123,10 @@ Authentication is out of scope per the prompt, so the account id comes from the 
 2. **§2 and §5, the back-test.** The flag rates (6 %, 36 %, 51 %, 55 %) and the locations flagged for the week of Jul 20 came from an exploratory run that bucketed weeks in UTC. The app buckets weeks in each account's local time, so exact counts can differ slightly. Measured by the app: the chosen rule flags **73 of the same 1,173 location-weeks (6.2 %)**, and 92 of 1,396 (6.6 %) if every location-week with at least 4 weeks of history is included. For the week of 2026-07-20 it flags the same three locations, all `above`: account 12 Site F (11, normal 1–10), account 15 Site C (12, normal 2–10), account 19 Site A (13, normal 2–12). In local weeks, account 6's spike week holds 880 events (not 881). Its baseline for Jul 20 is `53, 880, 102, 59, 76, 69, 79, 50`, which gives a median of 72.5 and a normal range of 24–121, instead of §7's UTC series with a median of 72. The unit test keeps §7's series as a pure input; the integration tests use the local numbers.
 3. **§10, time budget.** Real figures: planning about 1 h (12:20 to 13:20); walking skeleton and docs about 15 min, with two terminals in parallel. The evening block stays at 4 h and Sunday at 0.5 h. Actual time per block is reported above.
 
+## Known limitations
+
+- **The history rule is conservative.** A baseline week counts only if it starts at or after the location's first event, so a location whose first event lands on a Monday after midnight loses that whole week. In the seed, account 4 (America/Chicago) on the week of Mar 2: Site D (first event Sun Feb 1) has its 4 weeks and a range, while Sites A, B and C (first events Mon Feb 2 at 06:17 and 11:11, and Tue Feb 3 at 02:01, local) have 3 and show "No baseline yet", although the account as a whole has a range. The cost is one extra week of waiting for a new location; the alternative would let a partial first week drag its median down.
+
 ## Deferred, and why
 
 - **Quality metrics** (missed-call rate, no-show rate): a different question from volume, with its own baseline problems (rates on tiny denominators).
