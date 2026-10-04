@@ -1,1 +1,45 @@
-/* You can add global styles to this file, and also import other style files */
+/* Ported from ai-log/design/mockup-dashboard.html. Above is blue, below is amber: never red/green. */
+:root {
+  --ink: #1c2330;
+  --muted: #667085;
+  --line: #e4e7ec;
+  --track: #eceeea;
+  --band: #cfdfd3;
+  --dot: #3f4a57;
+  --above: #1d4ed8;
+  --below: #b45309;
+  --bg: #f4f4f2;
+  --card: #fff;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, 'Segoe UI', sans-serif; }
+main { max-width: 960px; margin: 0 auto; padding: 20px 16px 48px; }
+.note { font-size: 12px; color: var(--muted); }
+.top { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; margin-bottom: 18px; }
+.top .clock { margin: 0 0 0 auto; }
+label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+select { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+.eyebrow { font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
+h1 { font-size: 24px; line-height: 1.25; margin: 0 0 6px; max-width: 760px; }
+.sub { color: var(--muted); margin: 0 0 16px; }
+.alert { color: var(--below); }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.mcard { display: flex; flex-direction: column; gap: 4px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; text-align: left; font: inherit; color: inherit; cursor: pointer; }
+.mcard[aria-pressed='true'] { border: 2px solid var(--ink); padding: 11px 13px; }
+.mhead { display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 14px; }
+.big { font-size: 28px; font-weight: 700; margin-right: 6px; }
+.pill { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: #eceeea; color: #4b5563; white-space: nowrap; }
+.pill.above { background: #dbe6fd; color: var(--above); }
+.pill.below { background: #fdebd3; color: var(--below); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-bottom: 14px; }
+.card.empty { border-style: dashed; text-align: center; padding: 48px 16px; }
+.rows { margin-top: 8px; }
+.row { display: grid; grid-template-columns: 80px 36px 1fr 110px; gap: 12px; align-items: center; padding: 8px 6px; border: 0; border-top: 1px solid var(--line); cursor: pointer; background: none; width: 100%; text-align: left; font: inherit; color: inherit; }
+.rows > .row:first-child { border-top: 0; }
+.row:hover, .row[aria-expanded='true'] { background: #f2f5f9; }
+.num { font-weight: 700; text-align: right; }
+.st { text-align: right; }
+.detail { padding: 10px 6px 14px; border-top: 1px dashed var(--line); }
+.why { margin: 0 0 8px; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+.two ul { margin: 6px 0 0; padding-left: 18px; font-size: 13px; color: #3f4a57; }
