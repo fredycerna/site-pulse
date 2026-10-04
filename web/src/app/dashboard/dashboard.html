@@ -172,8 +172,15 @@
                     Normal for {{ loc.location }} is {{ loc.typicalLow }}–{{ loc.typicalHigh }} (median {{ loc.median }}), based on its own
                     {{ loc.historyWeeks }} previous weeks, {{ locationBaselineLabel(loc, d.baseline.end) }}. That is <strong>{{ rangeWord(loc.status) }}</strong> its normal range.
                   </p>
+                  @for (w of loc.unusualBaselineWeeks; track w.weekStart) {
+                    <p class="note unusual">
+                      The week of {{ formatDay(w.weekStart) }} ({{ countOf(w.count, d.eventType) }}) was exceptional for {{ loc.location }}. It is in
+                      its history but does not move its normal range.
+                    </p>
+                  }
                   <app-week-history-chart
                     [history]="loc.history"
+                    [unusual]="loc.unusualBaselineWeeks"
                     [median]="loc.median!"
                     [low]="loc.typicalLow!"
                     [high]="loc.typicalHigh!"

@@ -57,7 +57,8 @@ public sealed record LocationBaseline(
     BaselineStatus Status,
     int HistoryWeeks,
     double Deviation,
-    IReadOnlyList<HistoryWeek> History);
+    IReadOnlyList<HistoryWeek> History,
+    IReadOnlyList<WeekCount> UnusualBaselineWeeks);
 
 public sealed record DataNotes(int DuplicateRowsIgnored);
 

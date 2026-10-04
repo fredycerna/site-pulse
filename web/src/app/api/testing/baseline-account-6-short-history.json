@@ -333,6 +333,12 @@
           "count": 8,
           "inBaseline": false
         }
+      ],
+      "unusualBaselineWeeks": [
+        {
+          "weekStart": "2026-02-16",
+          "count": 12
+        }
       ]
     },
     {
@@ -390,7 +396,8 @@
           "count": 6,
           "inBaseline": false
         }
-      ]
+      ],
+      "unusualBaselineWeeks": []
     },
     {
       "location": "Site J",
@@ -447,7 +454,8 @@
           "count": 3,
           "inBaseline": false
         }
-      ]
+      ],
+      "unusualBaselineWeeks": []
     },
     {
       "location": "Site A",
@@ -504,7 +512,8 @@
           "count": 5,
           "inBaseline": false
         }
-      ]
+      ],
+      "unusualBaselineWeeks": []
     },
     {
       "location": "Site B",
@@ -561,7 +570,8 @@
           "count": 2,
           "inBaseline": false
         }
-      ]
+      ],
+      "unusualBaselineWeeks": []
     },
     {
       "location": "Site E",
@@ -618,7 +628,8 @@
           "count": 5,
           "inBaseline": false
         }
-      ]
+      ],
+      "unusualBaselineWeeks": []
     },
     {
       "location": "Site F",
@@ -675,7 +686,8 @@
           "count": 5,
           "inBaseline": false
         }
-      ]
+      ],
+      "unusualBaselineWeeks": []
     },
     {
       "location": "Site G",
@@ -732,7 +744,8 @@
           "count": 2,
           "inBaseline": false
         }
-      ]
+      ],
+      "unusualBaselineWeeks": []
     },
     {
       "location": "Site H",
@@ -789,7 +802,8 @@
           "count": 8,
           "inBaseline": false
         }
-      ]
+      ],
+      "unusualBaselineWeeks": []
     },
     {
       "location": "Site I",
@@ -846,7 +860,8 @@
           "count": 6,
           "inBaseline": false
         }
-      ]
+      ],
+      "unusualBaselineWeeks": []
     },
     {
       "location": "Site K",
@@ -903,7 +918,8 @@
           "count": 1,
           "inBaseline": false
         }
-      ]
+      ],
+      "unusualBaselineWeeks": []
     },
     {
       "location": "Site L",
@@ -960,7 +976,8 @@
           "count": 5,
           "inBaseline": false
         }
-      ]
+      ],
+      "unusualBaselineWeeks": []
     },
     {
       "location": "Site M",
@@ -1017,7 +1034,8 @@
           "count": 2,
           "inBaseline": false
         }
-      ]
+      ],
+      "unusualBaselineWeeks": []
     },
     {
       "location": "Site N",
@@ -1074,7 +1092,8 @@
           "count": 8,
           "inBaseline": false
         }
-      ]
+      ],
+      "unusualBaselineWeeks": []
     },
     {
       "location": "Site O",
@@ -1131,7 +1150,8 @@
           "count": 10,
           "inBaseline": false
         }
-      ]
+      ],
+      "unusualBaselineWeeks": []
     }
   ],
   "dataNotes": {

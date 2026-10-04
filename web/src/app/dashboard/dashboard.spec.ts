@@ -283,6 +283,18 @@ describe('Dashboard', () => {
       );
     });
 
+    it('names an exceptional week in the location detail and labels its bar', async () => {
+      const el = await render();
+
+      Array.from(el.querySelectorAll<HTMLButtonElement>('button.row')).find(r => r.querySelector('.loc-name')?.textContent?.trim() === 'Site G')!.click();
+      await TestBed.inject(ApplicationRef).whenStable();
+
+      const notes = Array.from(el.querySelectorAll('.detail .unusual')).map(p => p.textContent?.replace(/\s+/g, ' ').trim());
+      expect(notes).toContain('The week of Jun 1 (57 events) was exceptional for Site G. It is in its history but does not move its normal range.');
+      const labels = Array.from(el.querySelectorAll('.detail text.unusual-label')).map(t => t.textContent?.trim());
+      expect(labels).toEqual(['exceptional', 'exceptional']); // Jun 1 (57) above and Jun 29 (0) below the 1–8 range
+    });
+
     it('says that a week with no activity counts as zero', async () => {
       const el = await render();
 

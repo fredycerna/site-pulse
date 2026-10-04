@@ -150,6 +150,19 @@ public class AggregateVerificationTests
     }
 
     [Fact]
+    public async Task A_location_reports_its_own_unusual_baseline_weeks()
+    {
+        // By hand in sqlcmd (AT TIME ZONE 'Eastern Standard Time', dedup by GROUP BY): account 6 Site G, all types,
+        // weeks May 25 .. Jul 13 = 5, 57, 4, 5, 3, 0, 4, 6 (Jun 29 has no rows). Range 1–8 → Jun 1 (57) and Jun 29 (0) are outside.
+        var r = await Found(6, new DateOnly(2026, 7, 20));
+
+        var siteG = r.Locations.Single(l => l.Location == "Site G");
+        Assert.Equal(
+            [new WeekCount(new DateOnly(2026, 6, 1), 57), new WeekCount(new DateOnly(2026, 6, 29), 0)],
+            siteG.UnusualBaselineWeeks);
+    }
+
+    [Fact]
     public async Task A_short_baseline_marks_only_the_weeks_it_used()
     {
         // Account 6, week of Mar 2 (E2E finding F1): 4 history weeks, Feb 2 .. Feb 23; Jan 5 .. Jan 26 hold no complete week.

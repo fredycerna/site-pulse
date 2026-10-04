@@ -87,10 +87,8 @@ public sealed class BaselineService(IActivityQueries queries, TimeProvider clock
     private static MetricBaseline Metric(string eventType, int[] series, DateTime firstEventUtc, IReadOnlyList<WeekWindow> windows)
     {
         var (r, indices) = Judge(series, firstEventUtc, windows);
-        var unusual = r.UnusualBaselineIndices.Select(i => indices[i])
-            .Select(i => new WeekCount(windows[i].WeekStart, series[i])).ToList();
         return new MetricBaseline(eventType, series[^1], r.Median, r.TypicalLow, r.TypicalHigh, r.Status, r.HistoryWeeks,
-            History(series, windows, indices), unusual);
+            History(series, windows, indices), Unusual(r, indices, series, windows));
     }
 
     private static MetricBaseline NoDataMetric(string eventType, IReadOnlyList<WeekWindow> windows) =>
@@ -100,8 +98,12 @@ public sealed class BaselineService(IActivityQueries queries, TimeProvider clock
     {
         var (r, indices) = Judge(series, firstEventUtc, windows);
         return new LocationBaseline(name, series[^1], r.Median, r.TypicalLow, r.TypicalHigh, r.Status, r.HistoryWeeks,
-            Math.Round(r.Deviation, 2), History(series, windows, indices));
+            Math.Round(r.Deviation, 2), History(series, windows, indices), Unusual(r, indices, series, windows));
     }
+
+    /// <summary>Baseline weeks outside the range, from the positions BaselineStats returned, mapped back to their windows.</summary>
+    private static IReadOnlyList<WeekCount> Unusual(BaselineResult r, IReadOnlyList<int> indices, int[] series, IReadOnlyList<WeekWindow> windows) =>
+        r.UnusualBaselineIndices.Select(i => indices[i]).Select(i => new WeekCount(windows[i].WeekStart, series[i])).ToList();
 
     /// <param name="baselineIndices">The windows Judge counted as history, so InBaseline and HistoryWeeks cannot disagree.</param>
     private static IReadOnlyList<HistoryWeek> History(int[] series, IReadOnlyList<WeekWindow> windows, IReadOnlyList<int> baselineIndices) =>

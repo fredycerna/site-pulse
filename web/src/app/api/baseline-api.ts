@@ -54,6 +54,8 @@ export interface LocationBaseline {
   historyWeeks: number;
   deviation: number;
   history: HistoryWeek[];
+  /** Baseline weeks outside the location's range: kept in its history, they do not move it. */
+  unusualBaselineWeeks: WeekCount[];
 }
 
 export interface ActivityBaseline {

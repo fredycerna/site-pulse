@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { BaselineStatus, HistoryWeek } from '../api/baseline-api';
+import { BaselineStatus, HistoryWeek, WeekCount } from '../api/baseline-api';
 import { formatDay } from './format';
 
 /**
@@ -24,6 +24,8 @@ import { formatDay } from './format';
         <text [attr.x]="bar.x + BW / 2" [attr.y]="BASE + 14" class="week">{{ bar.label }}</text>
         @if (bar.outside) {
           <text [attr.x]="bar.x + BW / 2" [attr.y]="BASE + 26" class="outside-label">not used</text>
+        } @else if (bar.unusual) {
+          <text [attr.x]="bar.x + BW / 2" [attr.y]="BASE + 26" class="unusual-label">exceptional</text>
         }
       }
       @if (bars().length) {
@@ -47,10 +49,13 @@ import { formatDay } from './format';
     .week { font-size: 10px; fill: var(--muted); }
     .this-week { font-size: 10px; font-weight: 600; fill: var(--ink); }
     .outside-label { font-size: 9px; fill: var(--muted); font-style: italic; }
+    .unusual-label { font-size: 9px; fill: var(--ink); }
   `
 })
 export class WeekHistoryChart {
   readonly history = input.required<HistoryWeek[]>();
+  /** Baseline weeks the API reported as outside the range; their bars are labeled. */
+  readonly unusual = input<WeekCount[]>([]);
   readonly median = input.required<number>();
   readonly low = input.required<number>();
   readonly high = input.required<number>();
@@ -73,7 +78,8 @@ export class WeekHistoryChart {
       label: formatDay(h.weekStart),
       x: 30 + i * (this.BW + gap),
       last: i === n - 1,
-      outside: i < n - 1 && !h.inBaseline
+      outside: i < n - 1 && !h.inBaseline,
+      unusual: this.unusual().some(u => u.weekStart === h.weekStart)
     }));
   });
 
