@@ -162,9 +162,10 @@ Authentication is out of scope per the prompt, so the account id comes from the 
 | Evening, frontend terminal (in parallel) | ~21:40 – 21:55 | Q2 notes start 21:44; commits `441b163` 21:46 … `5cc1204` 21:54 | 15 min |
 | Block C: end-to-end pass, fixes, second pass, final fixes (one terminal) | 22:12 – 22:47 | Q4 notes start 22:12; report `249f4dd`; fixes `fad1ced` … `16fc5a1`; this README update at 22:47 | 35 min |
 | Block D: README polish, AI log index and reflection, clean clone, final checklist (one terminal) | 22:57 – 23:22 | Q5 notes start 22:57; exports `7b4ceba`; AI log index and reflection `99bff2f`; checklist `c926960`; this row at 23:22 | 25 min |
-| **My wall-clock time** (the effort measure) | 12:20 – 13:46 and 21:40 – 23:22 | my own clock; the terminal rows above ran in parallel inside these two windows and are not added to it | 86 + 102 = 188 min (3 h 8 min) |
+| Planning session, evening (in parallel with the terminals): validation of each hand-off, review and cleaning of the exports, last commit | 21:40 – 23:30 | planning export; this commit | 110 min |
+| **My wall-clock time** (the effort measure) | 12:20 – 13:46 and 21:40 – 23:30 | my own clock; the rows above ran in parallel inside these two windows and are not added to it | 86 + 110 = 196 min (3 h 16 min) |
 
-The rows per terminal count how long each agent session ran, not the effort: the terminals worked in parallel inside my time, and my time also covers reading, deciding and reviewing between them. The total effort is my wall-clock time, 3 h 8 min (Saturday 12:20 – 13:46 and 21:40 – 23:22), against the 6 h cap. The time not needed for features went into verification, the clean-clone test and the end-to-end pass.
+The rows per terminal count how long each agent session ran, not the effort: the terminals worked in parallel inside my time, and my time also covers reading, deciding and reviewing between them. The total effort is my wall-clock time, 3 h 16 min (Saturday 12:20 – 13:46 and 21:40 – 23:30), against the 6 h cap. The time not needed for features went into verification, the clean-clone test and the end-to-end pass.
 
 ## AI log
 

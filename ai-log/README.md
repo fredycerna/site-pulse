@@ -19,12 +19,13 @@ The raw record of how this slice was built with AI agents: the plan, each termin
     - [`03-q1-backend.md`](03-q1-backend.md) — backend terminal, evening
     - [`04-q2-frontend.md`](04-q2-frontend.md) — frontend terminal
     - [`05-q4-e2e.md`](05-q4-e2e.md) — end-to-end terminal
-    - Planning session export — pending; added by the planning session at the end, trimmed.
-    - Publishing terminal (Q5) export — pending; I run `/export` when the session closes.
+    - [`06-q5-publish.md`](06-q5-publish.md) — publishing terminal
+    - [`00-planning-export-midday.md`](00-planning-export-midday.md) — planning session, 12:20 – 13:50: seed profiling, my answers to the product questions, the design discussion, the prompts for each terminal. This is where the plan visibly precedes the code.
+    - [`00-planning-export-evening.md`](00-planning-export-evening.md) — planning session, 21:40 – 23:28: validation of each terminal's hand-off, the end-to-end findings and what was approved, the cleaning of these exports.
 
 ## Tools and models
 
-All sessions in Claude Code: planning on Claude Fable 5.1; the execution terminals (docs, backend, frontend, end-to-end, publishing) on Claude Opus 5.5; the end-to-end pass drove Chromium through the Playwright MCP tools, with nothing added to the repository.
+All sessions in Claude Code. Planning and reviewing: Claude Fable 5.1, in one planning session that wrote the day plan, the prompts, `CLAUDE.md` and `AGENT_WORKFLOW.md` with me, and later validated each terminal's hand-off; it wrote no application code. Authoring: Claude Opus 5.5, in the execution terminals (docs, backend, frontend, end-to-end, publishing), which wrote the code, the tests and the documents. The end-to-end pass drove Chromium through the Playwright MCP tools, with nothing added to the repository. Me: the product and scope decisions, the corrections recorded in the notes, and the reading and correcting of `PLAN.md` and of the reflection below. I wrote no code by hand.
 
 ## What was cleaned before publishing
 
@@ -32,7 +33,8 @@ The exports were reviewed and cleaned by the planning session, not by a terminal
 
 - Local paths outside the repository replaced by `<local-plan>`, `<local-notes>` and `<local-workspace>` (in `01` and `02`).
 - Three blocks replaced by a `[redacted before publishing: …]` mark in the same place: in `01`, 20 lines quoted from a private calendar note and 3 lines from a private file unrelated to this exercise (a terminal read them while looking for the plan); in `04`, the names of 2 unrelated containers that showed up in a `docker ps`.
-- Nothing else was touched. `03` and `05` are identical to the original.
+- Nothing else was touched in the terminal exports. `03`, `05` and `06` are identical to the original.
+- The two planning exports come from a session that ran in a private workspace shared with unrelated work, so they needed more: local paths (112 places at midday, 53 in the evening); the recruiter's name replaced by `[recruiter]` (7 and 5 times); at midday, 3 lines matched in a private file, the names of unrelated projects in 5 places (one of them in a prompt of mine) and the last 139 lines, where the session updated private status notes; in the evening, the search patterns and match lines of the cleaning itself wherever they named unrelated material, a few words in the agent's replies that described that material, and one clause of personal detail in a prompt of mine. Every cut is marked in place with `[redacted …]`. No prompt, answer or decision about this exercise was removed.
 
 ## Reflection
 
