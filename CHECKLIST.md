@@ -49,7 +49,7 @@ Living list. A box is ticked only when it was verified for real, with the eviden
 - [x] All SQL parameterized (interpolated `SqlQuery<T>`, no concatenation), checked at the exact lines — `ActivityQueries.cs`
 - [x] Every activity query filtered by `account_id` — the 4 predicates of the aggregation and the LINQ lookup
 - [x] `eventType` validated against a whitelist — `BaselineEndpoint.ParseQuery` + tests
-- [ ] Errors are ProblemDetails with the right status (400 / 404 / 422), no stack traces — 400/404 checked with curl, 422 by unit test, `UseExceptionHandler` configured; an unexpected 500 has not been triggered for real yet
+- [x] Errors are ProblemDetails with the right status (400 / 404 / 422), no stack traces — 400/404 checked with curl, 422 by unit test, `UseExceptionHandler` configured; a real 500 triggered on 2026-10-03 by stopping the database container (Development environment): `application/problem+json`, title "An error occurred while processing your request.", status 500, no trace; 200 again once the database was back
 - [x] No open CORS; the Angular dev proxy is used instead — no CORS in `api/`
 - [x] No `innerHTML` in the view — grep over `web/src`
 - [x] SA password is local-dev only, labeled, overridable by environment variable
