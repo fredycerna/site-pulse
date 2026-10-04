@@ -161,6 +161,17 @@ public class BaselineServiceTests
     }
 
     [Fact]
+    public async Task The_partial_week_of_the_first_event_is_not_offered()
+    {
+        // First event on the Sunday of week 1 (like the seed's Sun Feb 1): that week is partial.
+        var late = new LocationActivity("Site A", WeekStart(1).AddDays(6).AddHours(10), [new("call_received", 8, 3)]);
+
+        var r = await Found(new([late], 0));
+
+        Assert.Equal(new DateOnly(2026, 6, 8), r.AvailableWeeks[0]);
+    }
+
+    [Fact]
     public async Task Unusual_baseline_weeks_are_named_by_their_week()
     {
         var spiky = new LocationActivity("Site A", WeekStart(0),

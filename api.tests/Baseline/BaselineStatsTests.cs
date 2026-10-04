@@ -4,8 +4,9 @@ namespace SitePulse.Api.Tests.Baseline;
 
 public class BaselineStatsTests
 {
-    // Account 6 (Metro Collision), all locations, the 8 weeks before Jul 20; 881 is the Jun 3 spike week.
-    private static readonly int[] Account6Series = [53, 881, 102, 59, 76, 68, 80, 50];
+    // PLAN.md's exploratory series for account 6 before Jul 20, bucketed in UTC weeks (881 = the spike week).
+    // The app buckets in local weeks (53, 880, …, median 72.5; see the integration tests). Here it is only an input.
+    private static readonly int[] Account6UtcSeries = [53, 881, 102, 59, 76, 68, 80, 50];
 
     [Fact]
     public void Median_of_an_even_count_is_the_mean_of_the_middle_pair()
@@ -37,9 +38,9 @@ public class BaselineStatsTests
     }
 
     [Fact]
-    public void Account_6_real_series_with_87_is_typical_around_median_72()
+    public void Account_6_exploratory_utc_series_with_87_is_typical_around_median_72()
     {
-        var r = BaselineStats.Evaluate(Account6Series, current: 87);
+        var r = BaselineStats.Evaluate(Account6UtcSeries, current: 87);
 
         // MAD = 16 → σ = 1.4826·16 = 23.72 → 72 ± 47.44 → 24.56..119.44 → whole numbers 25..119.
         Assert.Equal(72, r.Median);
@@ -60,7 +61,7 @@ public class BaselineStatsTests
     [Fact]
     public void A_spike_in_the_baseline_is_reported_and_its_size_does_not_move_the_range()
     {
-        var withSpike = BaselineStats.Evaluate(Account6Series, current: 87);
+        var withSpike = BaselineStats.Evaluate(Account6UtcSeries, current: 87);
         var withBiggerSpike = BaselineStats.Evaluate([53, 5000, 102, 59, 76, 68, 80, 50], current: 87);
 
         Assert.Equal([1], withSpike.UnusualBaselineIndices);

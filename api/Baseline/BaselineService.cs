@@ -99,12 +99,17 @@ public sealed class BaselineService(IActivityQueries queries, TimeProvider clock
     private static IReadOnlyList<WeekCount> History(int[] series, IReadOnlyList<WeekWindow> windows) =>
         windows.Select((w, i) => new WeekCount(w.WeekStart, series[i])).ToList();
 
-    /// <summary>Local Mondays from the week of the first event to the last complete week. The current week is never offered.</summary>
+    /// <summary>
+    /// Local Mondays from the first complete week to the last complete week. Same rule as history: a week
+    /// counts if it starts at or after the first event, so the partial week of the first event is not offered,
+    /// and neither is the current week.
+    /// </summary>
     private static IReadOnlyList<DateOnly> AvailableWeeks(DateTime? firstEventUtc, TimeZoneInfo tz, DateTime nowUtc)
     {
         if (firstEventUtc is not { } first) return [];
         var from = WeekWindowCalculator.MondayOf(DateOnly.FromDateTime(
             TimeZoneInfo.ConvertTimeFromUtc(DateTime.SpecifyKind(first, DateTimeKind.Utc), tz)));
+        if (WeekWindowCalculator.WindowFor(tz, from).StartUtc < first) from = from.AddDays(7);
         var to = WeekWindowCalculator.LastCompleteWeek(tz, nowUtc);
         var weeks = new List<DateOnly>();
         for (var monday = from; monday <= to; monday = monday.AddDays(7)) weeks.Add(monday);
