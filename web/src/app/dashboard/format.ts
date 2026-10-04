@@ -78,11 +78,6 @@ export function signedDiff(current: number, median: number | null): string {
 
 /** "Mon Jul 27, 2026" for an instant, read in UTC. */
 export function formatClock(utc: string): string {
-  return new Date(utc).toLocaleDateString('en-US', {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    timeZone: 'UTC'
-  });
+  const weekday = new Date(utc).toLocaleDateString('en-US', { weekday: 'short', timeZone: 'UTC' });
+  return `${weekday} ${formatDay(utc.slice(0, 10), true)}`;
 }

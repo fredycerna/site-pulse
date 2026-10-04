@@ -61,6 +61,7 @@ describe('Dashboard', () => {
     expect(el.querySelector('.sub')?.textContent?.trim()).toBe('Compared with your own 8 previous full weeks (May 25 – Jul 19).');
     expect(el.querySelector('.eyebrow')?.textContent).toContain('Jul 20 – Jul 26, 2026');
     expect(el.querySelector('.eyebrow')?.textContent).toContain('America/New_York');
+    expect(el.querySelector('.clock')?.textContent?.trim()).toBe('Demo clock pinned to Mon Jul 27, 2026 (seed snapshot)');
   });
 
   it('shows the API error detail when the baseline call fails', async () => {
