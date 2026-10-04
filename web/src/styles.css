@@ -43,3 +43,4 @@ h1 { font-size: 24px; line-height: 1.25; margin: 0 0 6px; max-width: 760px; }
 .why { margin: 0 0 8px; }
 .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
 .two ul { margin: 6px 0 0; padding-left: 18px; font-size: 13px; color: #3f4a57; }
+.link { font: inherit; font-size: 13px; color: var(--above); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; }

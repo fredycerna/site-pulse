@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, map, of, startWith, switchMap } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountSummary, AccountsApi } from '../api/accounts-api';
-import { ActivityBaseline, BaselineApi, BaselineQuery, EVENT_TYPES, EventType } from '../api/baseline-api';
+import { ActivityBaseline, BaselineApi, BaselineQuery, EventType } from '../api/baseline-api';
 import {
   METRIC_LABELS,
   addDays,
@@ -17,6 +18,7 @@ import {
   statusLabel
 } from './format';
 import { RangeBar } from './range-bar';
+import { parseFilters } from './url-filters';
 import { WeekHistoryChart } from './week-history-chart';
 
 type Load<T> = { kind: 'loading' } | { kind: 'error'; message: string } | { kind: 'ready'; data: T };
@@ -34,7 +36,6 @@ export class Dashboard {
   private readonly accountsApi = inject(AccountsApi);
   private readonly baselineApi = inject(BaselineApi);
 
-  protected readonly eventTypes = EVENT_TYPES;
   protected readonly metricLabels = METRIC_LABELS;
   protected readonly statusLabel = statusLabel;
   protected readonly rangeWord = rangeWord;
@@ -43,10 +44,16 @@ export class Dashboard {
   protected readonly formatDay = formatDay;
   protected readonly isOutOfRange = isOutOfRange;
 
-  // Filters.
-  readonly accountId = signal<number | null>(null);
-  readonly eventType = signal<EventType>('all');
-  readonly week = signal<string | undefined>(undefined);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+
+  /** Filters come only from the URL, so a reload or a pasted link restores the view. */
+  private readonly filters = toSignal(this.route.queryParamMap.pipe(map(parseFilters)), {
+    initialValue: parseFilters(this.route.snapshot.queryParamMap)
+  });
+  protected readonly accountId = computed(() => this.filters().accountId);
+  protected readonly eventType = computed(() => this.filters().eventType);
+  protected readonly week = computed(() => this.filters().week);
 
   protected readonly accounts = toSignal(
     this.accountsApi.list().pipe(
@@ -149,17 +156,21 @@ export class Dashboard {
   });
 
   protected selectAccount(value: string): void {
-    this.accountId.set(Number(value));
-    this.week.set(undefined);
+    this.updateUrl({ account: value, week: null });
   }
 
   protected selectType(type: EventType): void {
-    this.eventType.set(type);
+    this.updateUrl({ type: type === 'all' ? null : type });
   }
 
-  protected selectWeek(value: string): void {
+  protected selectWeek(value: string | null): void {
     const weeks = this.data()?.availableWeeks ?? [];
-    this.week.set(value === weeks[weeks.length - 1] ? undefined : value);
+    this.updateUrl({ week: value === weeks[weeks.length - 1] ? null : value });
+  }
+
+  /** Defaults are left out of the URL (null removes the param). */
+  private updateUrl(queryParams: Record<string, string | null>): void {
+    void this.router.navigate([], { relativeTo: this.route, queryParams, queryParamsHandling: 'merge' });
   }
 
   protected toggle(location: string): void {

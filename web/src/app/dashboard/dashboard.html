@@ -45,6 +45,9 @@
           <section class="card" role="alert">
             <strong>We could not load this view.</strong>
             <p class="note">{{ b.message }}</p>
+            @if (week()) {
+              <button type="button" class="link" (click)="selectWeek(null)">Show the last complete week</button>
+            }
           </section>
         }
       }
