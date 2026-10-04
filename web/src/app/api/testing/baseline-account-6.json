@@ -16,7 +16,6 @@
   "eventType": "all",
   "nowUtc": "2026-07-27T14:00:00Z",
   "availableWeeks": [
-    "2026-01-26",
     "2026-02-02",
     "2026-02-09",
     "2026-02-16",
@@ -51,6 +50,7 @@
       "typicalLow": 24,
       "typicalHigh": 121,
       "status": "typical",
+      "historyWeeks": 8,
       "history": [
         {
           "weekStart": "2026-05-25",
@@ -103,6 +103,7 @@
       "typicalLow": 13,
       "typicalHigh": 71,
       "status": "typical",
+      "historyWeeks": 8,
       "history": [
         {
           "weekStart": "2026-05-25",
@@ -155,6 +156,7 @@
       "typicalLow": 8,
       "typicalHigh": 22,
       "status": "typical",
+      "historyWeeks": 8,
       "history": [
         {
           "weekStart": "2026-05-25",
@@ -207,6 +209,7 @@
       "typicalLow": 6,
       "typicalHigh": 20,
       "status": "typical",
+      "historyWeeks": 8,
       "history": [
         {
           "weekStart": "2026-05-25",
@@ -261,6 +264,7 @@
       "typicalLow": 0,
       "typicalHigh": 13,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": 0.81,
       "history": [
         {
@@ -308,6 +312,7 @@
       "typicalLow": 0,
       "typicalHigh": 10,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": 0.67,
       "history": [
         {
@@ -355,6 +360,7 @@
       "typicalLow": 0,
       "typicalHigh": 13,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": 0,
       "history": [
         {
@@ -402,6 +408,7 @@
       "typicalLow": 1,
       "typicalHigh": 8,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": -0.22,
       "history": [
         {
@@ -449,6 +456,7 @@
       "typicalLow": 1,
       "typicalHigh": 11,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": -0.67,
       "history": [
         {
@@ -496,6 +504,7 @@
       "typicalLow": 1,
       "typicalHigh": 9,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": -0.45,
       "history": [
         {
@@ -543,6 +552,7 @@
       "typicalLow": 1,
       "typicalHigh": 8,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": 0.71,
       "history": [
         {
@@ -590,6 +600,7 @@
       "typicalLow": 0,
       "typicalHigh": 12,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": 0.54,
       "history": [
         {
@@ -637,6 +648,7 @@
       "typicalLow": 0,
       "typicalHigh": 8,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": 1,
       "history": [
         {
@@ -684,6 +696,7 @@
       "typicalLow": 0,
       "typicalHigh": 7,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": 0.8,
       "history": [
         {
@@ -731,6 +744,7 @@
       "typicalLow": 0,
       "typicalHigh": 12,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": -0.27,
       "history": [
         {
@@ -778,6 +792,7 @@
       "typicalLow": 0,
       "typicalHigh": 11,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": -0.51,
       "history": [
         {
@@ -825,6 +840,7 @@
       "typicalLow": 0,
       "typicalHigh": 7,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": 1.57,
       "history": [
         {
@@ -872,6 +888,7 @@
       "typicalLow": 1,
       "typicalHigh": 8,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": 0.71,
       "history": [
         {
@@ -919,6 +936,7 @@
       "typicalLow": 1,
       "typicalHigh": 8,
       "status": "typical",
+      "historyWeeks": 8,
       "deviation": 1.57,
       "history": [
         {

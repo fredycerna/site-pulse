@@ -22,6 +22,9 @@ import { RangeBar } from './range-bar';
 import { parseFilters } from './url-filters';
 import { WeekHistoryChart } from './week-history-chart';
 
+/** Full weeks the API needs before a baseline exists (PLAN.md §5). */
+const MIN_HISTORY_WEEKS = 4;
+
 type Load<T> = { kind: 'loading' } | { kind: 'error'; message: string } | { kind: 'ready'; data: T };
 
 @Component({
@@ -98,6 +101,12 @@ export class Dashboard {
   protected readonly selectedMetric = computed(() => {
     const data = this.data();
     return data?.metrics.find(m => m.eventType === data.eventType) ?? null;
+  });
+
+  /** Full weeks still missing before the selected metric has a baseline; `historyWeeks` comes from the API. */
+  protected readonly weeksToGo = computed(() => {
+    const metric = this.selectedMetric();
+    return metric ? Math.max(0, MIN_HISTORY_WEEKS - metric.historyWeeks) : 0;
   });
 
   protected readonly isEmptyAccount = computed(() => this.data()?.metrics.every(m => m.status === 'no_data') ?? false);

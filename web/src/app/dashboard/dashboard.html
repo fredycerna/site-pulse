@@ -67,7 +67,7 @@
         @if (m.status === 'insufficient_history') {
           <h1>No baseline yet</h1>
           <p class="sub">
-            We need at least 4 full weeks to know what is normal for you. Pick a later week to see a comparison.
+            We need at least 4 full weeks to know what is normal for you. {{ weeksToGo() }} {{ weeksToGo() === 1 ? 'week' : 'weeks' }} to go.
           </p>
         } @else {
           <h1>
@@ -158,7 +158,7 @@
                 @if (!hasRange(loc.status)) {
                   <p class="why">
                     <strong>{{ countOf(loc.current, d.eventType) }} this week.</strong>
-                    {{ loc.location }} has fewer than 4 full weeks of history, so it has no normal range yet.
+                    {{ loc.location }} has {{ loc.historyWeeks }} of the 4 full weeks of history it needs for a normal range.
                   </p>
                 } @else {
                   <p class="why">

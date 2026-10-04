@@ -64,6 +64,16 @@ describe('Dashboard', () => {
     expect(el.querySelector('.clock')?.textContent?.trim()).toBe('Demo clock pinned to Mon Jul 27, 2026 (seed snapshot)');
   });
 
+  it('offers the API weeks newest first, labeling the last complete one', async () => {
+    const el = await render();
+
+    const options = Array.from(el.querySelectorAll<HTMLOptionElement>('select#week option'));
+    expect(options).toHaveLength(25);
+    expect(options[0].textContent?.trim()).toBe('Jul 20 – Jul 26, 2026 · last complete');
+    expect(options[0].selected).toBe(true);
+    expect(options[24].textContent?.trim()).toBe('Feb 2 – Feb 8, 2026');
+  });
+
   it('shows the API error detail when the baseline call fails', async () => {
     const fixture = TestBed.createComponent(Dashboard);
     http.expectOne('/api/accounts').flush(ACCOUNTS);
@@ -77,16 +87,27 @@ describe('Dashboard', () => {
     expect(alert?.textContent).toContain('week must be a Monday.');
   });
 
-  it('says there is no baseline yet when the history is too short', async () => {
+  function withoutBaseline(historyWeeks: number): ActivityBaseline {
     const data = baseline();
     data.week = { start: '2026-02-16', end: '2026-02-23' };
-    data.metrics[0] = { ...data.metrics[0], status: 'insufficient_history', median: null, typicalLow: null, typicalHigh: null };
+    data.metrics[0] = { ...data.metrics[0], status: 'insufficient_history', median: null, typicalLow: null, typicalHigh: null, historyWeeks };
+    return data;
+  }
 
-    const el = await render(data);
+  it('says how many full weeks are missing when there is no baseline yet', async () => {
+    const el = await render(withoutBaseline(1));
 
     expect(el.querySelector('h1')?.textContent?.trim()).toBe('No baseline yet');
-    expect(el.querySelector('.sub')?.textContent).toContain('We need at least 4 full weeks to know what is normal for you.');
+    expect(el.querySelector('.sub')?.textContent?.replace(/\s+/g, ' ').trim()).toBe(
+      'We need at least 4 full weeks to know what is normal for you. 3 weeks to go.'
+    );
     expect(el.querySelectorAll('.mcard')[0].querySelector('app-range-bar')).toBeNull();
+  });
+
+  it('uses the singular when one week is missing', async () => {
+    const el = await render(withoutBaseline(3));
+
+    expect(el.querySelector('.sub')?.textContent).toContain('1 week to go.');
   });
 
   describe('locations', () => {

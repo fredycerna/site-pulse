@@ -30,6 +30,8 @@ export interface MetricBaseline {
   typicalLow: number | null;
   typicalHigh: number | null;
   status: BaselineStatus;
+  /** Baseline weeks (0–8) that count as history; fewer than 4 is `insufficient_history`. */
+  historyWeeks: number;
   /** 8 baseline weeks, then the selected week last. */
   history: WeekCount[];
   /** Baseline weeks outside the range: kept in the history, they do not move it. */
@@ -43,6 +45,8 @@ export interface LocationBaseline {
   typicalLow: number | null;
   typicalHigh: number | null;
   status: BaselineStatus;
+  /** Baseline weeks (0–8) that count as history; fewer than 4 is `insufficient_history`. */
+  historyWeeks: number;
   deviation: number;
   history: WeekCount[];
 }
