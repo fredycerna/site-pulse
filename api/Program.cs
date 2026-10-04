@@ -1,4 +1,7 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
+using SitePulse.Api.Baseline;
 using SitePulse.Api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +11,14 @@ builder.Services.AddDbContext<SitePulseDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SitePulse")
         ?? throw new InvalidOperationException("Connection string 'SitePulse' is not configured.")));
 builder.Services.AddScoped<SeedLoader>();
+builder.Services.AddScoped<IActivityQueries, ActivityQueries>();
+builder.Services.AddScoped<BaselineService>();
+builder.Services.AddSingleton<TimeProvider>(
+    builder.Configuration.GetValue<DateTimeOffset?>("Dashboard:NowOverrideUtc") is { } pinned
+        ? new PinnedTimeProvider(pinned)
+        : TimeProvider.System);
+builder.Services.ConfigureHttpJsonOptions(options =>
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseLower)));
 
 var app = builder.Build();
 
@@ -39,6 +50,8 @@ app.MapGet("/api/accounts", async (SitePulseDbContext db, CancellationToken ct) 
         .OrderBy(a => a.Id)
         .Select(a => new AccountSummary(a.Id, a.Name, a.Timezone))
         .ToListAsync(ct));
+
+app.MapActivityBaseline();
 
 app.Run();
 
