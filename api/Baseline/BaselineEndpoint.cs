@@ -9,19 +9,10 @@ public static class BaselineEndpoint
         app.MapGet("/api/accounts/{accountId:int}/activity-baseline", async (
             int accountId, string? eventType, string? week, BaselineService service, CancellationToken ct) =>
         {
-            eventType ??= EventTypes.All;
-            if (!EventTypes.Accepted.Contains(eventType))
-                return BadRequest($"eventType must be one of: {string.Join(", ", EventTypes.Accepted)}.");
+            var (type, requestedWeek, error) = ParseQuery(eventType, week);
+            if (error is not null) return BadRequest(error);
 
-            DateOnly? requestedWeek = null;
-            if (week is not null)
-            {
-                if (!DateOnly.TryParseExact(week, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsed))
-                    return BadRequest("week must be a date in the form YYYY-MM-DD (the local Monday that starts the week).");
-                requestedWeek = parsed;
-            }
-
-            return await service.GetAsync(accountId, eventType, requestedWeek, ct) switch
+            return await service.GetAsync(accountId, type, requestedWeek, ct) switch
             {
                 BaselineOutcome.Found found => Results.Ok(found.Response),
                 BaselineOutcome.AccountNotFound => Results.Problem(
@@ -34,6 +25,18 @@ public static class BaselineEndpoint
             };
         });
         return app;
+    }
+
+    /// <summary>Input validation for the query string. Whether the week has ended depends on the account's timezone, so the service checks that.</summary>
+    public static (string EventType, DateOnly? Week, string? Error) ParseQuery(string? eventType, string? week)
+    {
+        eventType ??= EventTypes.All;
+        if (!EventTypes.Accepted.Contains(eventType))
+            return (eventType, null, $"eventType must be one of: {string.Join(", ", EventTypes.Accepted)}.");
+        if (week is null) return (eventType, null, null);
+        if (!DateOnly.TryParseExact(week, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsed))
+            return (eventType, null, "week must be a date in the form YYYY-MM-DD (the local Monday that starts the week).");
+        return (eventType, parsed, null);
     }
 
     private static IResult BadRequest(string detail) =>
