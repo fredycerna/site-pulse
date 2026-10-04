@@ -9,10 +9,10 @@ Living list. A box is ticked only when it was verified for real, with the eviden
 - [x] Seed loaded as-is (`db/seed/` byte-identical to the starter, checked with `shasum`) — block A, Q1 hand-off
 - [x] Endpoint with a real aggregation — `ActivityQueries.GetWeeklyActivityAsync`, one parameterized SQL query
 - [x] Angular view with an input whose state survives a reload — Q2: URL params, frontend test, manual reload in Chrome
-- [x] Tests that run (one line in the README on how) — `dotnet test` 59/59, `npm test` 40/40 after the end-to-end fixes (Q4, 2026-10-03); 54/54 and 29/29 before them (Q2)
+- [x] Tests that run (one line in the README on how) — `dotnet test` 60/60, `npm test` 41/41 on the final tree and from a clean clone (Q5, 2026-10-03 23:19); 54/54 and 29/29 before the end-to-end fixes
 - [x] `PLAN.md` committed before any implementation and never edited (first commit of the repo) — `b82d0d8` is the root commit and the only commit touching PLAN.md
-- [x] `README.md`: how to run, interpretation, assumptions, what was deferred and why, what I would do with another day, how to run the tests, deviations from the plan, real time per block — first full version; the Sunday row of the time table is still pending
-- [ ] AI log in `ai-log/`: raw prompts and responses, where I rejected or corrected the agent, short reflection, one line on tools and models
+- [x] `README.md`: how to run, interpretation, assumptions, what was deferred and why, what I would do with another day, how to run the tests, deviations from the plan, real time per block — read end to end against the final state (Q5, `74854fd`); the time table closes with block D
+- [x] AI log in `ai-log/`: raw prompts and responses, where I rejected or corrected the agent, short reflection, one line on tools and models — `ai-log/README.md` (index, tools and models, reflection), `notes-q1.md` … `notes-q5.md`, exports `01` … `05` (`7b4ceba`); the planning session's own export is still pending and is added by that session
 - [x] `CLAUDE.md` for the repo (optional, adds) — `383e344`
 
 ## Evaluation criteria (and the evidence that covers each)
@@ -29,7 +29,7 @@ Living list. A box is ticked only when it was verified for real, with the eviden
 - [x] State survives a reload: `account`, `type`, `week` in the URL; frontend test restores them (Q2)
 - [x] Edge states in the UI: loading, error, no activity, insufficient history (Q2 manual pass: account 20, week of Feb 2); "N weeks to go" from the API's `historyWeeks` (Q2 `f2c0d8b`)
 - [x] End-to-end pass in a real browser, view diffed against the API and the API against hand SQL; findings fixed with failing-first tests; second pass clean except F11 (exceptional weeks per location, needs a contract change) — `ai-log/e2e-report.md` (Q4)
-- [ ] AI-first workflow, honestly logged: `ai-log/notes-*.md`, exports, `AGENT_WORKFLOW.md`
+- [x] AI-first workflow, honestly logged: `ai-log/notes-*.md`, exports, `AGENT_WORKFLOW.md` (now with the end-to-end and publishing terminals and the validation loop), reflection in `ai-log/README.md`
 - [x] Scope discipline: deferred items named in the README with the reason
 
 ## Data checks
@@ -58,8 +58,8 @@ Living list. A box is ticked only when it was verified for real, with the eviden
 
 ## Before publishing
 
-- [ ] Review every export in `ai-log/` before it goes public (nothing private, nothing outside this exercise)
-- [x] Clean clone runs with the README steps; tests green — 2026-10-03 22:03, commit `77b7460`, fresh database `SitePulse_CleanClone`: migrations + seed, `dotnet test` 54/54, `npm install` + `npm test` 27/27, `ng build` clean. Found and fixed: a `container_name` conflict when another copy runs on the same machine (README note). `npm start` not run from the clone (ports in use); Q2's manual pass covers the view
-- [ ] No starter `docs/` in the repo; repo name is my own
+- [x] Review every export in `ai-log/` before it goes public (nothing private, nothing outside this exercise) — done by the planning session at 22:58, not by a terminal (a terminal that read them would copy them into its own export); what was changed is listed in `ai-log/README.md`
+- [x] Clean clone runs with the README steps; tests green — 2026-10-03 22:03, commit `77b7460`, fresh database `SitePulse_CleanClone`: migrations + seed, `dotnet test` 54/54, `npm install` + `npm test` 27/27, `ng build` clean. Found and fixed: a `container_name` conflict when another copy runs on the same machine (README note). `npm start` not run from the clone (ports in use); Q2's manual pass covers the view. Repeated end to end on 2026-10-03 23:19 (Q5) at `74854fd`, fresh database `SitePulse_Q5Clone`: migrations + seed, `dotnet build` 0 warnings, `dotnet test` 60/60, `npm install` + `npm test` 41/41, API and `npm start` from the clone, page checked in Playwright (default view; account 6, week of 2026-06-01, equal to the API; console clean). Found and fixed: a clone in a folder with the same name silently reuses the running container (README note)
+- [x] No starter `docs/` in the repo; repo name is my own — `git ls-files` has no `docs/`, `bin/`, `obj/`, `node_modules/` or `dist/`; no absolute local paths outside the exports; the only password is the labeled local-dev SA default; `.playwright-mcp/` ignored; name `site-pulse`
 - [ ] Create the public repo and push (done by me, not by an agent)
 - [ ] Reply to the prompt email with the repo link (draft first)

@@ -17,3 +17,6 @@ web/.angular/
 
 # Local secrets
 .env
+
+# Playwright MCP snapshots and console logs
+.playwright-mcp/

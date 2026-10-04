@@ -67,3 +67,9 @@ Checked against the sources before writing: the planning record matches points 8
 - My mistake: the first `kill` of the clone's API did not stop it within 2 s, and I ran `DROP DATABASE` in the same command, which failed silently because the database was in use (the list still showed it). Caught by reading the output; stopped the process with `-9`, dropped with `SINGLE_USER … ROLLBACK IMMEDIATE`; only `SitePulse` remains. Ports 4200 and 5290 free, clone folder deleted.
 - The Playwright MCP wrote `.playwright-mcp/` into the repo root (not the clone). Not staged; handled in task 6.
 - The original API is **not** restarted: the plan says to stop it, and nothing after this needs it.
+
+## 23:21 — Task 6, what is under version control
+
+- `git ls-files`: no `bin/`, `obj/`, `node_modules/`, `dist/`, `.angular/` or `docs/`. No absolute local paths (`/Users/`, `/home/`, `/private/tmp`) outside the exports 01–05. No `.env`, keys or certificates. The only password, `SitePulse_Dev_Only_2026!`, appears in `docker-compose.yml`, `appsettings.Development.json`, the README and the test helper's default connection, each marked local-dev or overridable.
+- `.gitignore` did not cover `.playwright-mcp/` (my task 5 run had just created it in the repo root). Added; the folder deleted.
+- CHECKLIST: ticked the AI log, AI-first workflow, export review (said to be the planning session's, 22:58), and "no starter docs/"; test counts and clean clone updated with today's run. Left unticked: public repo (line 7), create and push, reply to the email.
