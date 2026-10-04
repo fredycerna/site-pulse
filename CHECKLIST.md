@@ -9,7 +9,7 @@ Living list. A box is ticked only when it was verified for real, with the eviden
 - [x] Seed loaded as-is (`db/seed/` byte-identical to the starter, checked with `shasum`) — block A, Q1 hand-off
 - [x] Endpoint with a real aggregation — `ActivityQueries.GetWeeklyActivityAsync`, one parameterized SQL query
 - [x] Angular view with an input whose state survives a reload — Q2: URL params, frontend test, manual reload in Chrome
-- [x] Tests that run (one line in the README on how) — `dotnet test` 54/54, `npm test` 27/27 (Q2)
+- [x] Tests that run (one line in the README on how) — `dotnet test` 54/54, `npm test` 29/29 on the current tree (Q2)
 - [x] `PLAN.md` committed before any implementation and never edited (first commit of the repo) — `b82d0d8` is the root commit and the only commit touching PLAN.md
 - [x] `README.md`: how to run, interpretation, assumptions, what was deferred and why, what I would do with another day, how to run the tests, deviations from the plan, real time per block — first full version; the Sunday row of the time table is still pending
 - [ ] AI log in `ai-log/`: raw prompts and responses, where I rejected or corrected the agent, short reflection, one line on tools and models
@@ -27,7 +27,7 @@ Living list. A box is ticked only when it was verified for real, with the eviden
 - [x] Actionable on Monday morning: default is the last complete week; every status shows what it is compared against — `week` and `baseline` in every response; verdict line in the view (Q2)
 - [x] Code structure: thin endpoint → service → one query class + pure functions, DI throughout
 - [x] State survives a reload: `account`, `type`, `week` in the URL; frontend test restores them (Q2)
-- [x] Edge states in the UI: loading, error, no activity, insufficient history (Q2 manual pass: account 20, week of Feb 2). "N weeks to go" is not shown yet; the API's `historyWeeks` is ready for it
+- [x] Edge states in the UI: loading, error, no activity, insufficient history (Q2 manual pass: account 20, week of Feb 2); "N weeks to go" from the API's `historyWeeks` (Q2 `f2c0d8b`)
 - [ ] AI-first workflow, honestly logged: `ai-log/notes-*.md`, exports, `AGENT_WORKFLOW.md`
 - [x] Scope discipline: deferred items named in the README with the reason
 

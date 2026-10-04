@@ -51,7 +51,7 @@ The second one returns everything the view needs in one response: the account, t
 
 Layers, as planned: thin endpoint (`BaselineEndpoint`) → `BaselineService` (orchestration) → `IActivityQueries` (`ActivityQueries`, the only class with SQL) plus two pure functions, `WeekWindowCalculator` and `BaselineStats`.
 
-**View** (`web/`): one Angular page, built from the mockup in `ai-log/design/`: account picker and pinned-clock notice; a verdict sentence with numbers and its baseline; four metric cards where the selected card is the type filter; one row per location with a range bar, out-of-range first; a 9-week chart on click; loading, error, no-activity and not-enough-history states; a week picker; and footer cards explaining the rule and the data notes. Charts are hand-written SVG. Filters live in the URL (`account`, `type`, `week`), so a reload or a pasted link restores the view. The view renders what the API decided; it never recomputes status, ranges or order.
+**View** (`web/`): one Angular page, built from the mockup in `ai-log/design/`: account picker and pinned-clock notice; a verdict sentence with numbers and its baseline; four metric cards where the selected card is the type filter; one row per location with a range bar, out-of-range first; a 9-week chart on click; loading, error, no-activity and not-enough-history states (with "N weeks to go" from `historyWeeks`); a week picker; and footer cards explaining the rule and the data notes. Charts are hand-written SVG. Filters live in the URL (`account`, `type`, `week`), so a reload or a pasted link restores the view. The view renders what the API decided; it never recomputes status, ranges or order.
 
 ## How I read the ticket
 
