@@ -64,6 +64,14 @@ describe('Dashboard', () => {
     expect(el.querySelector('.clock')?.textContent?.trim()).toBe('Demo clock pinned to Mon Jul 27, 2026 (seed snapshot)');
   });
 
+  it('agrees the verb with a plural metric name', async () => {
+    const data = baseline();
+    data.eventType = 'call_received';
+    const el = await render(data);
+
+    expect(el.querySelector('h1')?.textContent?.replace(/\s+/g, ' ').trim()).toMatch(/^Calls are within your normal range \(51, normal 13–71\)\./);
+  });
+
   it('offers the API weeks newest first, labeling the last complete one', async () => {
     const el = await render();
 

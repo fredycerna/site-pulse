@@ -9,6 +9,14 @@ export const METRIC_LABELS: Record<EventType, string> = {
   appointment_set: 'Appointments'
 };
 
+/** The verb that agrees with each metric label: "All activity is", "Calls are". */
+export const METRIC_VERBS: Record<EventType, 'is' | 'are'> = {
+  all: 'is',
+  call_received: 'are',
+  lead_created: 'are',
+  appointment_set: 'are'
+};
+
 const NOUNS: Record<EventType, [singular: string, plural: string]> = {
   all: ['event', 'events'],
   call_received: ['call', 'calls'],

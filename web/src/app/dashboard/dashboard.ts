@@ -7,6 +7,7 @@ import { AccountSummary, AccountsApi } from '../api/accounts-api';
 import { ActivityBaseline, BaselineApi, BaselineQuery, EventType } from '../api/baseline-api';
 import {
   METRIC_LABELS,
+  METRIC_VERBS,
   addDays,
   countOf,
   formatClock,
@@ -38,6 +39,7 @@ export class Dashboard {
   private readonly baselineApi = inject(BaselineApi);
 
   protected readonly metricLabels = METRIC_LABELS;
+  protected readonly metricVerbs = METRIC_VERBS;
   protected readonly statusLabel = statusLabel;
   protected readonly rangeWord = rangeWord;
   protected readonly signedDiff = signedDiff;

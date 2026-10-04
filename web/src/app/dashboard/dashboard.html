@@ -71,7 +71,7 @@
           </p>
         } @else {
           <h1>
-            {{ metricLabels[m.eventType] }} is {{ rangeWord(m.status) }} your normal range ({{ m.current }}, normal {{ m.typicalLow }}–{{ m.typicalHigh }}).
+            {{ metricLabels[m.eventType] }} {{ metricVerbs[m.eventType] }} {{ rangeWord(m.status) }} your normal range ({{ m.current }}, normal {{ m.typicalLow }}–{{ m.typicalHigh }}).
             @if (outOfRangeCount() === 0) {
               Every location is within its own range.
             } @else if (outOfRangeCount() === 1) {
