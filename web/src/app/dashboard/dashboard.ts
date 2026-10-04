@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, linkedSignal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, linkedSignal, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, catchError, map, of, startWith, switchMap } from 'rxjs';
@@ -53,10 +53,10 @@ export class Dashboard {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
+  private readonly params = toSignal(this.route.queryParamMap, { initialValue: this.route.snapshot.queryParamMap });
+
   /** Filters come only from the URL, so a reload or a pasted link restores the view. */
-  private readonly filters = toSignal(this.route.queryParamMap.pipe(map(parseFilters)), {
-    initialValue: parseFilters(this.route.snapshot.queryParamMap)
-  });
+  private readonly filters = computed(() => parseFilters(this.params()));
   protected readonly accountId = computed(() => this.filters().accountId);
   protected readonly eventType = computed(() => this.filters().eventType);
   protected readonly week = computed(() => this.filters().week);
@@ -179,6 +179,26 @@ export class Dashboard {
     const first = this.data()?.locations[0];
     return first && isOutOfRange(first.status) ? first.location : null;
   });
+
+  constructor() {
+    // An invalid value falls back to a default; rewrite the URL to what is shown so it stays the single
+    // source of truth (E2E finding F5). replaceUrl: the bad URL does not stay in the history.
+    effect(() => {
+      const params = this.params();
+      const shown = this.selectedAccountId();
+      if (shown === null) return;
+      const fix: Record<string, string | null> = {};
+      const account = params.get('account');
+      if (account !== null && account !== String(shown)) fix['account'] = String(shown);
+      const type = params.get('type');
+      if (type !== null && type !== this.eventType()) fix['type'] = null;
+      const week = params.get('week');
+      if (week !== null && week !== this.week()) fix['week'] = null;
+      if (Object.keys(fix).length > 0) {
+        void this.router.navigate([], { relativeTo: this.route, queryParams: fix, queryParamsHandling: 'merge', replaceUrl: true });
+      }
+    });
+  }
 
   protected selectAccount(value: string): void {
     this.updateUrl({ account: value, week: null });

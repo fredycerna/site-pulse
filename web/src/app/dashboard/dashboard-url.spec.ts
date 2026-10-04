@@ -48,18 +48,34 @@ describe('Dashboard URL state', () => {
   });
 
   it('falls back to defaults when the URL values are invalid', async () => {
-    await open('/?account=abc&type=foo&week=last-tuesday');
+    const harness = await open('/?account=abc&type=foo&week=last-tuesday');
 
     const req = expectBaselineRequest('/api/accounts/6/activity-baseline');
     expect(req.request.params.get('eventType')).toBe('all');
     expect(req.request.params.has('week')).toBe(false);
     req.flush(sample);
+    await harness.fixture.whenStable();
+
+    // The URL is the single source of truth, so it is rewritten to what is shown (E2E finding F5).
+    expect(TestBed.inject(Router).url).toBe('/?account=6');
   });
 
   it('falls back to the first account when the account is not in the list', async () => {
-    await open('/?account=999');
+    const harness = await open('/?account=999');
 
     expectBaselineRequest('/api/accounts/6/activity-baseline').flush(sample);
+    await harness.fixture.whenStable();
+
+    expect(TestBed.inject(Router).url).toBe('/?account=6');
+  });
+
+  it('leaves valid URL values alone', async () => {
+    const harness = await open('/?account=20&type=call_received&week=2026-06-01');
+
+    expectBaselineRequest('/api/accounts/20/activity-baseline').flush(sample);
+    await harness.fixture.whenStable();
+
+    expect(TestBed.inject(Router).url).toBe('/?account=20&type=call_received&week=2026-06-01');
   });
 
   it('writes the selected metric card to the URL', async () => {
