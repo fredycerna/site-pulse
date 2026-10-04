@@ -5,7 +5,7 @@ public enum BaselineStatus { Below, Typical, Above, InsufficientHistory, NoData 
 /// <param name="Median">Center of the baseline; null without enough history.</param>
 /// <param name="TypicalLow">Lowest whole count that is typical (inclusive).</param>
 /// <param name="TypicalHigh">Highest whole count that is typical (inclusive).</param>
-/// <param name="Deviation">(current − median) / σ, with σ floored at 1; signed; 0 without enough history.</param>
+/// <param name="Deviation">(current − median) / σ; signed; 0 without enough history.</param>
 /// <param name="UnusualBaselineIndices">Positions in the baseline whose count lies outside the range.</param>
 /// <param name="HistoryWeeks">Baseline weeks that counted as history; the same number that decides InsufficientHistory.</param>
 public sealed record BaselineResult(
@@ -18,15 +18,18 @@ public sealed record BaselineResult(
     IReadOnlyList<int> UnusualBaselineIndices);
 
 /// <summary>
-/// "Normal" for one series (PLAN.md §5): median ± 2σ with σ = max(1.4826·MAD, √median).
+/// "Normal" for one series (PLAN.md §5): median ± 2σ with σ = max(1.4826·MAD, √median, 1).
 /// Median and MAD ignore how large an outlier is; the √median floor is the noise expected
-/// from a small count, so a flat series does not get a zero-width range.
+/// from a small count, so a flat series does not get a zero-width range. The floor of 1
+/// (added after the end-to-end pass) covers a median of 0, where √median is 0 too: the range
+/// is never narrower than ±2 events. It only changes series whose median is below 1.
 /// </summary>
 public static class BaselineStats
 {
     public const int MinimumHistoryWeeks = 4;
     private const double MadToSigma = 1.4826;
     private const double BandWidthInSigmas = 2;
+    private const double MinimumSigma = 1;
 
     public static double Median(IReadOnlyList<double> values)
     {
@@ -47,7 +50,7 @@ public static class BaselineStats
         var values = baseline.Select(c => (double)c).ToArray();
         var median = Median(values);
         var mad = Median(values.Select(v => Math.Abs(v - median)).ToArray());
-        var sigma = Math.Max(MadToSigma * mad, Math.Sqrt(median));
+        var sigma = Math.Max(Math.Max(MadToSigma * mad, Math.Sqrt(median)), MinimumSigma);
         var low = median - BandWidthInSigmas * sigma;
         var high = median + BandWidthInSigmas * sigma;
 
@@ -60,7 +63,7 @@ public static class BaselineStats
             .ToList();
 
         return new BaselineResult(Classify(current, low, high), historyWeeks, median, typicalLow, typicalHigh,
-            (current - median) / Math.Max(sigma, 1), unusual);
+            (current - median) / sigma, unusual);
     }
 
     private static BaselineStatus Classify(int count, double low, double high) =>

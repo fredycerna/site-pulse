@@ -64,13 +64,13 @@ Layers, as planned: thin endpoint (`BaselineEndpoint`) → `BaselineService` (or
 
 ## What "normal" means
 
-For each series (a location, or the account as a whole): median ± 2σ with σ = max(1.4826·MAD, √median), shown as whole numbers ("normal 24–121"). A value equal to a limit is typical. Fewer than 4 weeks of history → `insufficient_history`.
+For each series (a location, or the account as a whole): median ± 2σ with σ = max(1.4826·MAD, √median, 1), shown as whole numbers ("normal 24–121"). A value equal to a limit is typical. Fewer than 4 weeks of history → `insufficient_history`.
 
 - **Median and MAD** ignore how big an outlier is. Account 6's 880-event spike week sits in the baseline of the following eight weeks and does not move their range; it is listed as an unusual baseline week instead of being hidden.
 - **The √median floor** is the noise you expect from small counts (2 to 15 events per location-week). Without it, a location with the same count every week gets a zero-width range.
 - **Why not percentages, quartiles or a moving average**: measured against the seed, this rule flags about 6 % of location-weeks; the alternatives flag 36 % to 55 % (PLAN.md §5). A screen that flags half the locations every Monday gets ignored.
 - **History** starts at the location's first event, and only complete weeks count: a baseline week counts if it starts at or after the first event. The partial week of the first event is left out so a half week does not drag the median down. The same rule decides which weeks can be picked: `availableWeeks` starts at the first complete week (Feb 2 for every account in the seed, whose first events are on Sun Feb 1). The response carries `historyWeeks`, the exact number that decided `insufficient_history`.
-- **All-zero baseline** (for example, a location that has never had an appointment): by the formula the range is 0–0, and a single event is `above`. That is pinned in a test as a visible choice.
+- **A floor of one event for σ.** When the median is 0 (a location that rarely or never has appointments), √median is 0 as well, and before the floor the range collapsed to 0–0: a single event was `above`. With σ ≥ 1 the range is never narrower than ±2 events, so that location reads "normal 0–2". It only changes series whose median is below 1; see Deviations, item 11.
 
 ## Decisions and trade-offs
 
@@ -114,6 +114,7 @@ Authentication is out of scope per the prompt, so the account id comes from the 
 8. **`db/verify/verify-aggregates.sql`** was added so the independent check can be repeated.
 9. **Integration tests call the service directly** with the seeded database (as planned: no `WebApplicationFactory`). The HTTP mapping (404, 400, 422 as `ProblemDetails`) was checked with curl, and the query-string validation is a pure function with its own tests. A non-numeric account id (`/api/accounts/abc/...`) gets a 404 from the route constraint, not a 400.
 10. **The partial week of the first event is neither history nor pickable.** The plan said "fewer than 4 complete weeks since its first event" and "`availableWeeks` from the first week with data". In the seed, the first week with data (Jan 26) holds only its Sunday. A baseline week counts as history only if it starts at or after the first event, and `availableWeeks` follows the same rule, so it starts at Feb 2. A `week=2026-01-26` passed by hand is still accepted and comes out `insufficient_history`.
+11. **σ is floored at 1: σ = max(1.4826·MAD, √median, 1).** A degenerate case of PLAN.md §5's rule, found by the end-to-end pass (`ai-log/e2e-report.md`, F2). With a median of 0, MAD and √median are both 0 and the range was 0–0. Account 6, appointments, week of Jul 20: Site M (0, 6, 0, 0, 0, 0, 2, 1 in its baseline) was `above` with "normal 0–0", and so were three other locations with 2 appointments. Across the seed, 199 location-weeks were `above` against a 0–0 range. Measured over every location-week with a range (1,396 per type), before → after: all 92 → 92 (6.6 %), calls 78 → 78 (5.6 %), leads 149 → 95 (10.7 % → 6.8 %), appointments 252 → 74 (18.1 % → 5.3 %), all four types together 571 → 339 (10.2 % → 6.1 %); 0–0 rows flagged 199 → 0. Series with a median of 1 or more are unchanged, so the errata's 6.2 % and 6.6 % for all activity stand. The unit test that pinned "all-zero baseline: one event is above" was changed on purpose to the new range (0–2).
 
 ## Errata to PLAN.md
 

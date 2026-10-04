@@ -201,6 +201,13 @@ describe('Dashboard', () => {
     expect(el.querySelectorAll('.mcard, button.row')).toHaveLength(0);
   });
 
+  it('says the normal range is never narrower than two events', async () => {
+    const el = await render();
+
+    const rules = Array.from(el.querySelectorAll('.two .card:first-child li')).map(li => li.textContent?.replace(/\s+/g, ' ').trim());
+    expect(rules).toContain('The normal range is never narrower than 2 events either way, so a quiet location is not flagged for one or two events.');
+  });
+
   it('lists exceptional baseline weeks and excluded duplicates in the data notes', async () => {
     const el = await render();
 

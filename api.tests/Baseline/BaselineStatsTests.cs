@@ -70,17 +70,31 @@ public class BaselineStatsTests
     }
 
     [Fact]
-    public void All_zero_baseline_gives_a_zero_range_and_any_activity_is_above()
+    public void All_zero_baseline_still_has_a_range_of_two_events()
     {
+        // Degenerate case of PLAN.md §5 found by the end-to-end pass: median 0 and MAD 0 used to give
+        // σ = 0, a 0–0 range, and one event was "above". σ is now floored at 1, so the range is 0–2.
         int[] zeros = [0, 0, 0, 0, 0, 0, 0, 0];
 
-        var quiet = BaselineStats.Evaluate(zeros, 0);
-        var active = BaselineStats.Evaluate(zeros, 1);
+        Assert.Equal((0, 2), (BaselineStats.Evaluate(zeros, 0).TypicalLow, BaselineStats.Evaluate(zeros, 0).TypicalHigh));
+        Assert.Equal(BaselineStatus.Typical, BaselineStats.Evaluate(zeros, 1).Status);
+        Assert.Equal(BaselineStatus.Typical, BaselineStats.Evaluate(zeros, 2).Status);
+        Assert.Equal(BaselineStatus.Above, BaselineStats.Evaluate(zeros, 3).Status);
+    }
 
-        Assert.Equal((0, 0), (quiet.TypicalLow, quiet.TypicalHigh));
-        Assert.Equal(BaselineStatus.Typical, quiet.Status);
-        Assert.Equal(BaselineStatus.Above, active.Status);
-        Assert.True(double.IsFinite(active.Deviation));
+    [Fact]
+    public void Sparse_series_with_median_zero_gets_the_floor_of_one_sigma()
+    {
+        // Account 6, Site M, appointments before Jul 20 (hand SQL): median 0, MAD 0. It had 2 and 1 in the last two weeks.
+        int[] siteM = [0, 6, 0, 0, 0, 0, 2, 1];
+
+        var two = BaselineStats.Evaluate(siteM, 2);
+        var three = BaselineStats.Evaluate(siteM, 3);
+
+        Assert.Equal((0, 2), (two.TypicalLow, two.TypicalHigh));
+        Assert.Equal(BaselineStatus.Typical, two.Status);
+        Assert.Equal(BaselineStatus.Above, three.Status);
+        Assert.Equal(3, three.Deviation);
     }
 
     [Fact]
@@ -121,9 +135,9 @@ public class BaselineStatsTests
         var random = new Random(247);
         for (var trial = 0; trial < 500; trial++)
         {
-            var baseline = Enumerable.Range(0, random.Next(4, 9)).Select(_ => random.Next(0, 40)).ToArray();
+            var baseline = Enumerable.Range(0, random.Next(4, 9)).Select(_ => random.Next(0, random.Next(1, 40))).ToArray();
             var median = Mid(baseline.Select(x => (double)x));
-            var sigma = Math.Max(1.4826 * Mid(baseline.Select(x => Math.Abs(x - median))), Math.Sqrt(median));
+            var sigma = Math.Max(Math.Max(1.4826 * Mid(baseline.Select(x => Math.Abs(x - median))), Math.Sqrt(median)), 1);
 
             for (var current = 0; current <= 80; current++)
             {

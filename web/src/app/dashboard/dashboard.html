@@ -188,6 +188,7 @@
             <li>Each location is compared with its own {{ d.baseline.weeks }} previous full weeks. A week with no activity counts as 0.</li>
             <li>Normal range = the middle value of those weeks, plus or minus the usual week-to-week swing.</li>
             <li>With low volumes we compare against the range, not a percentage.</li>
+            <li>The normal range is never narrower than 2 events either way, so a quiet location is not flagged for one or two events.</li>
           </ul>
         </section>
         <section class="card">
